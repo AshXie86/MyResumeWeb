@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谢民辉 - 个人网站</title>
+    
+    <!-- 第三方库导入 -->
+    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/fontawesome-free-7.1.0-web/js/all.min.js"></script>
+    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/3.4.17.js"></script>
+    <!-- 引入 ECharts 以保持一致性 (虽然首页没图表，但防止后续扩展需要) -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-light: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary-light: #7209b7;
+            --secondary-dark: #5a08a0;
+            --accent-light: #4cc9f0;
+            --accent-dark: #3ab7e0;
+            --bg-light: #f8f9fa;
+            --bg-dark: #0f172a;
+            --surface-light: #ffffff;
+            --surface-dark: #1e293b;
+            --text-light: #1e293b;
+            --text-dark: #f1f5f9;
+            --border-light: #e2e8f0;
+            --border-dark: #334155;
+            /* 新增：导航栏玻璃态变量 */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark {
+            --glass-bg: rgba(30, 41, 59, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .dark body {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        
+        /* 高斯模糊元素通用类 */
+        .glass-effect {
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .dark .glass-effect {
+            background-color: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* 毛玻璃卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 交互反馈 */
+        .interactive:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dark .interactive:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* 英雄区域背景 */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #4361ee30 0%, #7209b730 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #4cc9f040 0%, transparent 70%);
+            top: 10%;
+            left: 10%;
+            filter: blur(40px);
+        }
+        
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #7209b740 0%, transparent 70%);
+            bottom: 10%;
+            right: 10%;
+            filter: blur(50px);
+        }
+
+        /* --- 顶部高斯模糊导航栏样式 --- */
+        .glass-nav {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        @supports not (backdrop-filter: blur(12px)) {
+            .glass-nav {
+                background: var(--surface-light);
+            }
+            .dark .glass-nav {
+                background: var(--surface-dark);
+            }
+        }
+        
+        /* 技能标签 */
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 5px;
+            font-weight: 500;
+        }
+        
+        .dark .skill-tag {
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent-dark));
+        }
+        
+        /* 联系卡片 */
+        .contact-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 16px;
+            background-color: var(--surface-light);
+            margin-bottom: 15px;
+            border: 1px solid var(--border-light);
+        }
+        
+        .dark .contact-card {
+            background-color: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 22px;
+        }
+        
+        /* --- 右下角固定深色模式按钮 --- */
+        .theme-toggle-fixed {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--surface-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1002;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .dark .theme-toggle-fixed {
+            background-color: var(--surface-dark);
+            border-color: var(--border-dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .theme-toggle-fixed i {
+            font-size: 22px;
+            color: var(--primary-light);
+            transition: transform 0.5s ease;
+        }
+
+        .dark .theme-toggle-fixed i {
+            color: var(--accent-dark);
+            transform: rotate(180deg);
+        }
+
+        .theme-toggle-fixed:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 640px) {
+            .theme-toggle-fixed {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .theme-toggle-fixed i {
+                font-size: 18px;
+            }
+            
+            /* 移动端导航调整 */
+            .glass-nav {
+                padding: 0 15px;
+            }
+            .glass-nav span:not(.font-bold) {
+                display: none; /* 移动端隐藏文字，只留图标 */
+            }
+            .glass-nav .space-x-6 {
+                space-x: 4;
+            }
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(67, 97, 238, 0.5);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(67, 97, 238, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- 英雄区域背景装饰 -->
+    <div class="hero-bg"></div>
+
+    <!-- 顶部高斯模糊导航栏 -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 mx-auto max-w-7xl mt-4 rounded-2xl px-6 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-code text-xl text-blue-500 dark:text-blue-400"></i>
+            <span class="text-lg font-semibold">个人主页</span>
+        </div>
+        <div class="flex space-x-6">
+            <!-- 首页 (当前页高亮) -->
+            <a href="index.html" class="text-blue-500 dark:text-blue-400 font-semibold border-b-2 border-blue-500 pb-1 flex items-center space-x-1">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <!-- 其他页面链接 -->
+            <a href="project.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
+                <i class="fas fa-project-diagram"></i>
+                <span>项目详情</span>
+            </a>
+            <a href="experience.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
+                <i class="fas fa-briefcase"></i>
+                <span>工作经历</span>
+            </a>
+            <a href="contact.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
+                <i class="fas fa-envelope"></i>
+                <span>联系方式</span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold">X</div>
+            <span class="hidden md:inline text-sm font-medium">个人空间</span>
+        </div>
+    </nav>
+    
+    <!-- 页面容器 (注意 pt-28 以避免被顶部导航遮挡) -->
+    <div class="container mx-auto px-4 py-8 pt-28 max-w-6xl">
+        
+        <!-- 首页内容 -->
+        <div class="page active" id="home">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">谢民辉</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">电子商务专业 · 品牌助理 · 数据分析与策略研究</p>
+                
+                <!-- Hero图片区域 -->
+                <div class="relative w-48 h-48 mx-auto mb-8">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
+                    <div class="absolute inset-4 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
+                        <div class="text-6xl font-bold text-blue-500">X</div>
+                    </div>
+                </div>
+                
+                <div class="max-w-2xl mx-auto">
+                    <p class="text-lg mb-6">西南石油大学电子商务专业本科生，专注于数据赋能策略、市场竞争分析与品牌运营，具备扎实的博弈论建模与市场分析能力。</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- 自我评价 -->
+                <div class="glass-card interactive p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">自我评价</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">具备较强的数据分析与市场洞察能力，能够通过博弈论模型分析市场竞争机制。善于团队协作与跨部门沟通，拥有扎实的品牌运营与项目管理经验，对电商平台数据赋能策略有深入研究。</p>
+                </div>
+                
+                <!-- 基本信息 -->
+                <div class="glass-card interactive p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-blue-400 flex items-center justify-center mr-4">
+                            <i class="fas fa-info-circle text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">基本信息</h3>
+                    </div>
+                    <ul class="space-y-2">
+                        <li class="flex">
+                            <span class="font-medium w-24">年龄：</span>
+                            <span>20岁</span>
+                        </li>
+                        <li class="flex">
+                            <span class="font-medium w-24">性别：</span>
+                            <span>男</span>
+                        </li>
+                        <li class="flex">
+                            <span class="font-medium w-24">学历：</span>
+                            <span>本科</span>
+                        </li>
+                        <li class="flex">
+                            <span class="font-medium w-24">院校：</span>
+                            <span>西南石油大学</span>
+                        </li>
+                        <li class="flex">
+                            <span class="font-medium w-24">专业：</span>
+                            <span>电子商务</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 个人优势 -->
+                <div class="glass-card interactive p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center mr-4">
+                            <i class="fas fa-star text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">个人优势</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>数据建模与博弈论分析能力</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>市场分析与品牌运营经验</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>跨部门协调与项目管理能力</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>社群运营与用户增长策略</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 教育经历 -->
+            <div class="glass-card interactive p-6 mb-12">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-graduation-cap mr-3 text-blue-500"></i>
+                    教育经历
+                </h3>
+                <div class="flex flex-col md:flex-row items-start md:items-center">
+                    <div class="mb-4 md:mb-0 md:mr-8">
+                        <div class="text-4xl font-bold text-blue-500">西南石油大学</div>
+                        <div class="text-lg font-medium mt-1">电子商务专业 · 本科</div>
+                    </div>
+                    <div class="bg-blue-100 dark:bg-blue-900 px-4 py-2 rounded-lg">
+                        <div class="text-blue-700 dark:text-blue-300 font-medium">2023.09 ~ 2027.08</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<!-- 页脚 -->
+    <footer class="max-w-4xl mx-auto px-4 text-center">
+        <p class="text-sm text-slate-500 dark:text-slate-400" style="color: var(--text-secondary);">
+            &copy; 2026 谢民辉。保留所有权利。
+        </p>
+        <p class="text-xs text-slate-400 dark:text-slate-500 mt-2" style="color: var(--text-secondary); opacity: 0.7;">
+            本内容由AI生成，可能存在错误或不准确之处。请在使用前自行核实信息的准确性。
+        </p>
+    </footer>
+    <!-- 右下角深色模式按钮 -->
+    <div class="theme-toggle-fixed interactive" id="themeToggle" title="切换深色模式">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- 脚本 -->
+    <script>
+        // 深色模式切换逻辑
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // 检查系统偏好
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 初始化主题
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const isDark = savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches);
+            
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // 更新图标
+            if (isDark) {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+            
+            // 添加点击反馈
+            themeToggle.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                themeToggle.style.transform = '';
+            }, 200);
+        });
+        
+        // 交互反馈 - 悬停效果
+        document.querySelectorAll('.interactive').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            
+            // 添加加载动画
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

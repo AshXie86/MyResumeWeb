@@ -1,0 +1,201 @@
+/* style.css */
+/* 高级感网页样式 - 支持深色模式与高斯模糊Tab栏 */
+
+/* CSS自定义变量：统一管理主题颜色与设计令牌 */
+:root {
+  /* 浅色模式变量 */
+  --bg-body: #f5f7fa;
+  --bg-surface: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --border-color: #e0e0e0;
+  --tab-bg: rgba(255, 255, 255, 0.8);
+  --tab-border: rgba(255, 255, 255, 0.9);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.05);
+
+  /* 模糊与视觉效果参数 */
+  --blur-radius: 12px;
+  --backdrop-blur: blur(var(--blur-radius)) saturate(160%) contrast(105%);
+  --border-radius-lg: 16px;
+  --border-radius-md: 12px;
+  --border-radius-sm: 8px;
+
+  /* 告知浏览器支持双色模式，优化表单控件渲染 */
+  color-scheme: light dark;
+}
+
+/* 深色模式：基于系统偏好自动切换 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 深色模式变量 */
+    --bg-body: #121212;
+    --bg-surface: #1e1e2e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaaaaa;
+    --border-color: #333333;
+    --tab-bg: rgba(30, 30, 46, 0.4);
+    --tab-border: rgba(255, 255, 255, 0.08);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
+    --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* 渐进增强：仅在支持 backdrop-filter 的浏览器中启用模糊效果 */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .tab-bar,
+  .glass-card,
+  .modal {
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur); /* Safari 兼容 */
+  }
+
+  .tab-bar {
+    background-color: var(--tab-bg);
+    border-top: 1px solid var(--tab-border);
+  }
+}
+
+/* 降级方案：不支持模糊时使用半透明纯色背景 */
+@supports not (backdrop-filter: blur(1px)) and not (-webkit-backdrop-filter: blur(1px)) {
+  .tab-bar,
+  .glass-card,
+  .modal {
+    background-color: var(--bg-surface);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+/* 页面基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease; /* 平滑过渡 */
+}
+
+/* 容器通用样式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Tab 栏样式（固定底部，高斯模糊） */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1000;
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+  /* 背景模糊由 @supports 规则控制 */
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 40px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.tab-item.active {
+  color: #4a90e2;
+  font-weight: 500;
+}
+
+.tab-item i {
+  font-size: 1.2em;
+  margin-bottom: 4px;
+}
+
+/* 卡片组件：毛玻璃质感 */
+.glass-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* 模态框样式 */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--bg-surface);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  z-index: 1100;
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  color: var(--text-secondary);
+}
+
+/* 文字链接 */
+.text-link {
+  color: #4a90e2;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.text-link:hover {
+  opacity: 0.8;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .tab-bar {
+    height: 68px; /* 适配移动端安全区 */
+    padding-bottom: env(safe-area-inset-bottom); /* 避免被Home Indicator遮挡 */
+  }
+}
+
+/* 硬件加速提示：提升动画性能 */
+.tab-bar,
+.glass-card,
+.modal {
+  will-change: transform;
+}
