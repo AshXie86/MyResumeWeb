@@ -19,6 +19,14 @@
             --accent-hover: #2563eb;
             --glass-bg: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --hero-text: #1e293b; /* 用于Hero区域的文本颜色 */
+            --contact-title: #1e293b; /* 用于"联系方式"标题的颜色 */
+            --info-title: #1e293b; /* 用于"联系说明"标题的颜色 */
+            --footer-bg: #ffffff; /* 页脚背景色 */
+            --footer-text: #64748b; /* 页脚文本色 */
+            --footer-link: #64748b; /* 页脚链接色 */
+            --footer-link-hover: #3b82f6; /* 页脚链接悬停色 */
+            --footer-border: #e2e8f0; /* 页脚边框色 */
             color-scheme: light dark;
         }
 
@@ -34,6 +42,14 @@
             --accent-hover: #93c5fd;
             --glass-bg: rgba(30, 41, 59, 0.6);
             --glass-border: rgba(255, 255, 255, 0.05);
+            --hero-text: #f1f5f9; /* 深色模式下Hero区域文本为白色 */
+            --contact-title: #f1f5f9; /* 深色模式下"联系方式"标题为白色 */
+            --info-title: #f1f5f9; /* 深色模式下"联系说明"标题为白色 */
+            --footer-bg: #1e293b; /* 深色模式下页脚背景色 */
+            --footer-text: #cbd5e1; /* 深色模式下页脚文本色 */
+            --footer-link: #94a3b8; /* 深色模式下页脚链接色 */
+            --footer-link-hover: #60a5fa; /* 深色模式下页脚链接悬停色 */
+            --footer-border: #334155; /* 深色模式下页脚边框色 */
         }
 
         body {
@@ -42,8 +58,8 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
             min-height: 100vh;
-            /* 移除底部导航预留空间，因为改用顶部导航 */
-            padding-bottom: 2rem; 
+            display: flex;
+            flex-direction: column;
         }
 
         /* 高斯模糊顶部导航栏 (从 index/project 移植) */
@@ -68,6 +84,12 @@
             border-bottom: 1px solid var(--border-color);
             border-radius: 0 0 1.5rem 1.5rem;
             margin-top: 5rem; /* 为顶部导航留出空间 */
+        }
+
+        /* Hero区域标题颜色 */
+        .contact-hero h1,
+        .contact-hero p {
+            color: var(--hero-text);
         }
 
         /* 联系人卡片设计 */
@@ -163,13 +185,29 @@
             border-color: #10b981;
         }
 
-        /* 页脚样式 */
+        .copy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 页脚样式 - 确保页脚固定在底部 */
         footer {
-            margin-top: 3rem;
+            margin-top: auto;
             padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            border-top: 1px solid var(--footer-border);
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
             font-size: 0.875rem;
+            width: 100%;
+        }
+
+        footer a {
+            color: var(--footer-link);
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--footer-link-hover);
         }
 
         /* --- 新增：右下角固定深色模式按钮样式 --- */
@@ -270,18 +308,18 @@
     </nav>
 
     <!-- 主内容区 -->
-    <main class="max-w-4xl mx-auto px-4">
+    <main class="max-w-4xl mx-auto px-4 flex-grow">
         <!-- Hero区域 -->
         <section class="contact-hero rounded-b-2xl mb-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-slate-800 dark:text-slate-100">保持联系</h1>
-            <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">保持联系</h1>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto">
                 欢迎通过以下方式与我取得联系
             </p>
         </section>
 
         <!-- 联系方式卡片区域 -->
         <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">联系方式</h2>
+            <h2 class="text-2xl font-semibold mb-6">联系方式</h2>
             
             <!-- 电子邮件卡片 -->
             <div class="contact-card">
@@ -293,7 +331,7 @@
                         <h3>电子邮件</h3>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                             <div class="contact-value">2528276561@qq.com</div>
-                            <button class="copy-btn self-start md:self-center" data-text="2528276561@qq.com" onclick="copyToClipboard(this)">
+                            <button class="copy-btn self-start md:self-center" data-text="2528276561@qq.com">
                                 <i class="far fa-copy"></i>
                                 <span>复制</span>
                             </button>
@@ -314,8 +352,8 @@
                     <div class="contact-info flex-grow">
                         <h3>电话</h3>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                            <div class="contact-value">+8619150044471</div>
-                            <button class="copy-btn self-start md:self-center" data-text="+86191-5004-4471" onclick="copyToClipboard(this)">
+                            <div class="contact-value">+8618613230053</div>
+                            <button class="copy-btn self-start md:self-center" data-text="+86191-5004-4471">
                                 <i class="far fa-copy"></i>
                                 <span>复制</span>
                             </button>
@@ -337,13 +375,13 @@
                         <h3>微信</h3>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                             <div class="contact-value">Ash_3146</div>
-                           <button class="copy-btn self-start md:self-center" data-text="Ash_3146" onclick="copyToClipboard(this)">
+                           <button class="copy-btn self-start md:self-center" data-text="Ash_3146">
                                 <i class="far fa-copy"></i>
                                 <span>复制</span>
                             </button>
                         </div>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                            搜索微信号添加好友
+                            可通过搜索微信号添加好友
                         </p>
                     </div>
                 </div>
@@ -358,14 +396,14 @@
                     <div class="contact-info flex-grow">
                         <h3>WhatsApp</h3>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                            <div class="contact-value">待提供</div>
+                            <div class="contact-value contact-placeholder">暂不提供</div>
                             <button class="copy-btn self-start md:self-center" disabled>
                                 <i class="far fa-copy"></i>
                                 <span>复制</span>
                             </button>
                         </div>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                            国际沟通需求可使用WhatsApp
+                            若您通过OfferToday了解到我，可使用WhatsApp与我联系
                         </p>
                     </div>
                 </div>
@@ -377,12 +415,12 @@
             <div class="flex items-start">
                 <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
                 <div>
-                    <h3 class="text-lg font-semibold mb-2 text-slate-800 dark:text-slate-100">联系说明</h3>
+                    <h3 class="text-lg font-semibold mb-2" style="color: var(--info-title);">联系说明</h3>
                     <p class="text-slate-600 dark:text-slate-300 mb-2" style="color: var(--text-secondary);">
-                        我通常会在 <strong class="text-blue-600 dark:text-blue-400" style="color: var(--accent-color);">1-2个工作日内</strong> 回复所有正式的工作联系。
+                         我通常会在 <strong class="text-blue-600 dark:text-blue-400" style="color: var(--accent-color);">1个工作日内</strong> 回复所有的工作联系。 
                     </p>
                     <p class="text-slate-600 dark:text-slate-300" style="color: var(--text-secondary);">
-                        对于紧急事宜，建议直接拨打电话。请在联系时简要说明来意，以便我能更好地为您提供帮助。
+                         若有重要事宜，请直接拨打电话。非常期待能为您提供力所能及的帮助。 
                     </p>
                 </div>
             </div>
@@ -390,13 +428,31 @@
     </main>
 
     <!-- 页脚 -->
-    <footer class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-sm text-slate-500 dark:text-slate-400" style="color: var(--text-secondary);">
-            &copy; 2026 谢民辉。保留所有权利。
-        </p>
-        <p class="text-xs text-slate-400 dark:text-slate-500 mt-2" style="color: var(--text-secondary); opacity: 0.7;">
-            本内容由AI生成，可能存在错误或不准确之处。请在使用前自行核实信息的准确性。
-        </p>
+    <footer class="border-t">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm mb-2 md:mb-0">
+                    &copy; 2026 谢民辉.保留所有权利.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="transition-colors">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <a href="project.html" class="transition-colors">
+                        <i class="fas fa-project-diagram"></i>
+                    </a>
+                    <a href="experience.html" class="transition-colors">
+                        <i class="fas fa-briefcase"></i>
+                    </a>
+                    <a href="contact.html" class="transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <p class="text-xs mt-2 text-center">
+                本网站部署在GitHub Pages,有时您可能需要挂载VPN访问
+            </p>
+        </div>
     </footer>
 
     <!-- 右下角深色模式按钮 -->
@@ -467,9 +523,92 @@
                     card.style.transform = 'translateY(0)';
                 }, 100 + index * 150);
             });
+
+            // 3. 修复复制功能 - 添加事件委托
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.copy-btn') && !e.target.closest('.copy-btn').disabled) {
+                    const button = e.target.closest('.copy-btn');
+                    copyToClipboard(button);
+                }
+            });
         });
 
-        // 3. 深色模式媒体查询监听 (保留，用于无本地存储时的初始判断)
+        // 修复后的复制文本到剪贴板功能
+        async function copyToClipboard(button) {
+            // 获取要复制的文本
+            const textToCopy = button.getAttribute('data-text');
+            
+            if (!textToCopy) {
+                console.error('没有找到要复制的文本');
+                return;
+            }
+
+            // 保存原始按钮状态
+            const originalHTML = button.innerHTML;
+            const originalClasses = button.className;
+
+            try {
+                // 尝试使用现代API
+                await navigator.clipboard.writeText(textToCopy);
+                
+                // 成功反馈
+                showCopySuccess(button);
+            } catch (err) {
+                // 如果现代API失败，回退到传统方法
+                console.warn('现代剪贴板API失败，使用传统方法:', err);
+                
+                // 创建临时文本域
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                
+                // 隐藏文本域
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                textArea.style.opacity = '0';
+                textArea.style.pointerEvents = 'none';
+                
+                document.body.appendChild(textArea);
+                
+                // 选择并复制文本
+                textArea.select();
+                const success = document.execCommand('copy');
+                
+                // 清理
+                document.body.removeChild(textArea);
+                
+                if (success) {
+                    // 成功反馈
+                    showCopySuccess(button);
+                } else {
+                    // 失败反馈
+                    console.error('复制失败');
+                    alert('复制失败，请手动复制文本');
+                    
+                    // 恢复按钮状态
+                    button.innerHTML = originalHTML;
+                    button.className = originalClasses;
+                }
+            }
+        }
+
+        // 显示复制成功反馈
+        function showCopySuccess(button) {
+            // 更新按钮样式
+            button.classList.add('copied');
+            button.classList.remove('text-gray-600', 'bg-gray-100', 'hover:bg-blue-500', 'hover:text-white');
+            
+            // 更新按钮内容
+            button.innerHTML = '<i class="fas fa-check"></i><span>已复制</span>';
+            
+            // 2秒后恢复原始状态
+            setTimeout(() => {
+                button.classList.remove('copied');
+                button.innerHTML = '<i class="far fa-copy"></i><span>复制</span>';
+            }, 2000);
+        }
+
+        // 4. 深色模式媒体查询监听 (保留，用于无本地存储时的初始判断)
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('theme')) {
                 if (e.matches) {
@@ -479,52 +618,6 @@
                 }
             }
         });
-
-        // 复制文本到剪贴板功能 (保留原逻辑)
-        function copyToClipboard(button) {
-            const textToCopy = button.getAttribute('data-text');
-            
-            if (!textToCopy) return;
-            
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalHTML = button.innerHTML;
-                button.classList.add('copied');
-                button.querySelector('span').textContent = '已复制';
-                button.querySelector('i').className = 'fas fa-check';
-                
-                setTimeout(() => {
-                    button.classList.remove('copied');
-                    button.innerHTML = originalHTML;
-                }, 2000);
-            }).catch(err => {
-                const textArea = document.createElement('textarea');
-                textArea.value = textToCopy;
-                textArea.style.position = 'fixed';
-                textArea.style.opacity = '0';
-                document.body.appendChild(textArea);
-                textArea.select();
-                
-                try {
-                    const successful = document.execCommand('copy');
-                    if (successful) {
-                        const originalHTML = button.innerHTML;
-                        button.classList.add('copied');
-                        button.querySelector('span').textContent = '已复制';
-                        button.querySelector('i').className = 'fas fa-check';
-                        
-                        setTimeout(() => {
-                            button.classList.remove('copied');
-                            button.innerHTML = originalHTML;
-                        }, 2000);
-                    }
-                } catch (err) {
-                    console.error('复制失败:', err);
-                    alert('复制失败，请手动复制文本');
-                }
-                
-                document.body.removeChild(textArea);
-            });
-        }
     </script>
 </body>
 </html>
