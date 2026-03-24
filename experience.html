@@ -20,6 +20,11 @@
             --shadow-color: rgba(0, 0, 0, 0.08);
             --glass-bg: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --footer-bg: #ffffff;
+            --footer-text: #64748b;
+            --footer-link: #64748b;
+            --footer-link-hover: #3b82f6;
+            --footer-border: #e2e8f0;
             color-scheme: light dark;
         }
 
@@ -36,6 +41,21 @@
             --shadow-color: rgba(0, 0, 0, 0.2);
             --glass-bg: rgba(30, 41, 59, 0.6);
             --glass-border: rgba(255, 255, 255, 0.05);
+            --footer-bg: #1e293b;
+            --footer-text: #cbd5e1;
+            --footer-link: #94a3b8;
+            --footer-link-hover: #60a5fa;
+            --footer-border: #334155;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* 高斯模糊导航栏 (从 project/index 移植) */
@@ -137,8 +157,6 @@
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
         }
 
-        /* 在 body.dark 下，hero-bg 也会自动变化，无需单独定义 */
-
         /* 动画效果 */
         @keyframes fadeInUp {
             from {
@@ -192,8 +210,28 @@
         }
 
         body.dark .theme-toggle-fixed i {
-            color: var(--accent-hover, var(--accent-color)); /* Fallback to accent-color if accent-hover is not defined */
+            color: var(--accent-hover, var(--accent-color));
             transform: rotate(180deg);
+        }
+
+        /* 页脚样式 */
+        footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--footer-border);
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            font-size: 0.875rem;
+            width: 100%;
+        }
+
+        footer a {
+            color: var(--footer-link);
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--footer-link-hover);
         }
 
         /* 移动端适配 */
@@ -221,8 +259,7 @@
 !(function(j,a,g){j.__itrace_conf = {bid: 'kt40h0wl-koyh4af8',rel: '', uid: 'e99201a0-b0b5-4b5e-8daa-237626955000' ,  spa: true, plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
 </script>
 </head>
-<!-- 应用背景渐变和文字颜色 -->
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-slate-900 text-gray-800 dark:text-gray-200 min-h-screen">
+<body>
     <!-- 使用与 index/project 相同的 glass-nav -->
     <nav class="glass-nav fixed top-0 left-0 right-0 z-50 mx-auto max-w-7xl mt-4 rounded-2xl px-6 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-2">
@@ -254,9 +291,9 @@
     </nav>
 
     <!-- 主要内容 -->
-    <main class="pt-24 pb-16">
+    <main class="pt-24 pb-16 flex-grow">
         <!-- Hero区域 -->
-        <section class="experience__hero-bg py-16 md:py-20">
+        <section class="experience__hero-bg py-16 md:py-20 rounded-3xl m-4">
             <div class="container mx-auto px-4 md:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center experience__fade-in">
                     <h1 class="text-4xl md:text-5xl font-bold mb-6" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">
@@ -342,10 +379,10 @@
                                                 负责协调运营，美工等各部门，推动产品更新流程优化，保障产品先进性，提高约<strong>20%</strong>客户满意度
                                             </div>
                                             <div class="experience__contribution-item">
-                                                负责企业官网的原型图绘制和官网内容的更新与维护
+                                                负责企业官网的部分原型图绘制和官网部分品宣内容的更新与维护
                                             </div>
                                             <div class="experience__contribution-item">
-                                                独立负责<strong>1000人以上</strong>规模用户社群的运营与维护，用户活跃度显著提升，复购率提升<strong>30%</strong>
+                                                独立负责<strong>700人以上</strong>规模用户社群的运营与维护，用户活跃度显著提升，复购率提升<strong>30%</strong>
                                             </div>
                                             <div class="experience__contribution-item">
                                                 负责官网与公众号的品宣文稿撰写，在职期间文稿阅读量提升<strong>60%</strong>
@@ -580,13 +617,31 @@
     </main>
 
     <!-- 页脚 -->
-    <footer class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-sm text-slate-500 dark:text-slate-400" style="color: var(--text-secondary);">
-            &copy; 2026 谢民辉。保留所有权利。
-        </p>
-        <p class="text-xs text-slate-400 dark:text-slate-500 mt-2" style="color: var(--text-secondary); opacity: 0.7;">
-            本内容由AI生成，可能存在错误或不准确之处。请在使用前自行核实信息的准确性。
-        </p>
+    <footer class="border-t">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm mb-2 md:mb-0">
+                    &copy; 2026 谢民辉.保留所有权利.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="transition-colors">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <a href="project.html" class="transition-colors">
+                        <i class="fas fa-project-diagram"></i>
+                    </a>
+                    <a href="experience.html" class="transition-colors">
+                        <i class="fas fa-briefcase"></i>
+                    </a>
+                    <a href="contact.html" class="transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <p class="text-xs mt-2 text-center">
+                本网站部署在GitHub Pages,有时您可能需要挂载VPN访问
+            </p>
+        </div>
     </footer>
 
     <!-- 右下角深色模式按钮 -->
