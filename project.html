@@ -8,206 +8,285 @@
     <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/3.4.17.js"></script>
     <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/echarts.min.js"></script>
     <style>
-        /* 启用系统级深色模式支持 (基础变量) */
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            color-scheme: light dark;
-        }
+    /* 启用系统级深色模式支持 (基础变量) */
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-card: #ffffff;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+        --accent-color: #3b82f6;
+        --accent-hover: #2563eb;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --footer-bg: #ffffff;
+        --footer-text: #64748b;
+        --footer-link: #64748b;
+        --footer-link-hover: #3b82f6;
+        --footer-border: #e2e8f0;
+        color-scheme: light dark;
+    }
 
-        /* 手动深色模式类 (由 JS 控制) */
-        body.dark {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --border-color: #334155;
-            --accent-color: #60a5fa;
-            --accent-hover: #93c5fd;
-            --glass-bg: rgba(30, 41, 59, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.05);
-        }
+    /* 手动深色模式类 (由 JS 控制) */
+    body.dark {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-card: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --accent-color: #60a5fa;
+        --accent-hover: #93c5fd;
+        --glass-bg: rgba(30, 41, 59, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.05);
+        --footer-bg: #1e293b;
+        --footer-text: #cbd5e1;
+        --footer-link: #94a3b8;
+        --footer-link-hover: #60a5fa;
+        --footer-border: #334155;
+    }
 
-        /* 高斯模糊导航栏 */
+    body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 高斯模糊导航栏 */
+    .glass-nav {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    @supports not (backdrop-filter: blur(12px)) {
         .glass-nav {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        @supports not (backdrop-filter: blur(12px)) {
-            .glass-nav {
-                background: var(--bg-card);
-            }
-        }
-
-        /* 毛玻璃卡片增强效果 */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        @supports not (backdrop-filter: blur(8px)) {
-            .glass-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border-color);
-            }
-        }
-
-        /* 自定义项目技能标签样式 */
-        .skill-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.35rem 0.75rem;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 197, 253, 0.15) 100%);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            color: var(--accent-color);
-            margin: 0.25rem;
-        }
-
-        body.dark .skill-tag {
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(147, 197, 253, 0.2) 100%);
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            color: var(--accent-hover);
-        }
-
-        /* 确保所有卡片高度一致 */
-        .card-height-fix {
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* 图表容器样式 */
-        .chart-container {
-            width: 100%;
-            height: 400px;
             background: var(--bg-card);
-            border-radius: 1rem;
+        }
+    }
+
+    /* 毛玻璃卡片增强效果 */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid var(--glass-border);
+        transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    @supports not (backdrop-filter: blur(8px)) {
+        .glass-card {
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 1.5rem;
         }
+    }
 
-        /* 动画 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+    /* 自定义项目技能标签样式 */
+    .skill-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.75rem;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 197, 253, 0.15) 100%);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        color: var(--accent-color);
+        margin: 0.25rem;
+    }
+
+    body.dark .skill-tag {
+        background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(147, 197, 253, 0.2) 100%);
+        border: 1px solid rgba(96, 165, 250, 0.3);
+        color: var(--accent-hover);
+    }
+
+    /* 确保所有卡片高度一致 */
+    .card-height-fix {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 图表容器样式 */
+    .chart-container {
+        width: 100%;
+        height: 400px;
+        background: var(--bg-card);
+        border-radius: 1rem;
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+    }
+
+    /* 动画 */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
         }
-
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
+    }
 
-        /* 文件上传区域样式 */
-        .file-upload-zone {
-            border: 2px dashed var(--border-color);
-            border-radius: 1rem;
-            transition: all 0.3s;
-        }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
 
-        .file-upload-zone:hover, .file-upload-zone.drag-over {
-            border-color: var(--accent-color);
-            background-color: rgba(59, 130, 246, 0.05);
-        }
+    /* 文件下载区域样式 */
+    .file-download-zone {
+        border: 2px dashed var(--border-color);
+        border-radius: 1rem;
+        transition: all 0.3s;
+        background-color: var(--bg-secondary);
+    }
 
-        body.dark .file-upload-zone:hover, body.dark .file-upload-zone.drag-over {
-            background-color: rgba(96, 165, 250, 0.1);
-        }
+    .file-download-zone:hover {
+        border-color: var(--accent-color);
+        background-color: rgba(59, 130, 246, 0.05);
+    }
 
-        /* --- 新增：右下角固定深色模式按钮样式 --- */
+    body.dark .file-download-zone:hover {
+        background-color: rgba(96, 165, 250, 0.1);
+    }
+
+    /* 下载按钮样式 */
+    .download-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, var(--accent-color), #60a5fa);
+        color: white;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, var(--accent-hover), #93c5fd);
+    }
+
+    .download-btn:active {
+        transform: translateY(0);
+    }
+
+    /* --- 修正：右下角固定深色模式按钮样式 --- */
+    .theme-toggle-fixed {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--bg-card);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1002;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle-fixed:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-toggle-fixed i {
+        font-size: 22px;
+        color: var(--accent-color);
+        transition: transform 0.5s ease;
+    }
+
+    body.dark .theme-toggle-fixed {
+        background-color: var(--bg-card);
+        border-color: var(--border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark .theme-toggle-fixed i {
+        color: var(--accent-hover);
+        transform: rotate(180deg);
+    }
+
+    /* 页脚样式 */
+    footer {
+        margin-top: auto;
+        padding-top: 2rem;
+        border-top: 1px solid var(--footer-border);
+        background-color: var(--footer-bg);
+        color: var(--footer-text);
+        font-size: 0.875rem;
+        width: 100%;
+    }
+
+    footer a {
+        color: var(--footer-link);
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+        color: var(--footer-link-hover);
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 640px) {
         .theme-toggle-fixed {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--bg-card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1002;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            bottom: 20px;
+            right: 20px;
         }
-
-        .theme-toggle-fixed:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
         .theme-toggle-fixed i {
-            font-size: 22px;
-            color: var(--accent-color);
-            transition: transform 0.5s ease;
+            font-size: 18px;
         }
+        
+        /* 移动端导航文字隐藏 */
+        .glass-nav span:not(.font-semibold) {
+            display: none;
+        }
+        .glass-nav .space-x-6 {
+            gap: 1rem;
+        }
+        
+        .download-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 
-        body.dark .theme-toggle-fixed {
-            background-color: var(--bg-card);
-            border-color: var(--border-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        body.dark .theme-toggle-fixed i {
-            color: var(--accent-hover);
-            transform: rotate(180deg);
-        }
-
-        /* 移动端适配 */
-        @media (max-width: 640px) {
-            .theme-toggle-fixed {
-                width: 45px;
-                height: 45px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .theme-toggle-fixed i {
-                font-size: 18px;
-            }
-            
-            /* 移动端导航文字隐藏 */
-            .glass-nav span:not(.font-semibold) {
-                display: none;
-            }
-            .glass-nav .space-x-6 {
-                gap: 1rem;
-            }
-        }
+    /* --- 最终诊断与修复代码 --- */
+    /* 强制在深色模式下，项目描述部分的文字为白色 */
+    body.dark .glass-card .space-y-3.text-gray-700 {
+        color: rgb(150, 150, 150) !important;
+    }
     </style>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 <script>
 !(function(j,a,g){j.__itrace_conf = {bid: 'kt40h0wl-koyh4af8',rel: '', uid: 'e99201a0-b0b5-4b5e-8daa-237626955000' ,  spa: true, plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
 </script>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-slate-900 text-gray-800 dark:text-gray-200 min-h-screen">
+<body class="dark:bg-gradient-to-br dark:from-gray-900 dark:to-slate-900">
     <!-- 高斯模糊导航栏 -->
     <nav class="glass-nav fixed top-0 left-0 right-0 z-50 mx-auto max-w-7xl mt-4 rounded-2xl px-6 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-2">
@@ -238,7 +317,7 @@
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 pt-24 pb-12 max-w-7xl">
+    <main class="container mx-auto px-4 pt-24 pb-12 max-w-7xl flex-grow">
         <!-- 页面标题与简介 -->
         <header class="mb-12 text-center animate-fade-in-up">
             <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">研究项目展示</h1>
@@ -264,7 +343,7 @@
                                         </span>
                                         <span class="flex items-center">
                                             <i class="fas fa-user-friends mr-2"></i>
-                                            项目角色：组员
+                                            项目角色：科研成员
                                         </span>
                                     </div>
                                 </div>
@@ -280,7 +359,7 @@
                                 <i class="fas fa-file-alt mr-2 text-blue-500"></i>
                                 项目简介
                             </h3>
-                            <div class="space-y-3 text-gray-700 dark:text-gray-300">
+                            <div class="space-y-3 text-gray-700 dark:text-gray-400">
                                 <p>本研究聚焦于电商平台数据赋能对商家竞争与市场定价的影响机制。通过构建平台—零售商—消费者三层决策模型，深入分析不同数据赋能策略下的市场竞争动态。</p>
                                 <ul class="list-disc pl-5 space-y-2">
                                     <li>基于霍特林差异化竞争模型与领导者-跟随者博弈模型构建理论框架，分析不同数据赋能策略下的市场竞争机制。</li>
@@ -324,30 +403,35 @@
                                     <i class="fas fa-file-word mr-1"></i>
                                     WPS Office
                                 </span>
+                                <span class="skill-tag">
+                                    <i class="fas fa-chart-bar mr-1"></i>
+                                    SPSS
+                                </span>
                             </div>
                         </div>
 
-                        <!-- 项目文件上传/预览区域 -->
+                        <!-- 项目文件下载区域 -->
                         <div class="mt-4 pt-6 border-t border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-semibold mb-4 flex items-center">
                                 <i class="fas fa-folder-open mr-2 text-purple-500"></i>
                                 项目文件
                             </h3>
-                            <div class="file-upload-zone p-6 text-center mb-4" id="fileUploadZone">
-                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 dark:text-gray-500 mb-3"></i>
-                                <p class="text-gray-600 dark:text-gray-400 mb-2">拖放文件至此区域，或点击上传</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-500">支持 PDF, DOCX 格式，最大 10MB</p>
-                                <input type="file" id="fileInput" class="hidden" accept=".pdf,.docx">
-                                <button id="uploadBtn" class="mt-4 px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105">
-                                    <i class="fas fa-upload mr-2"></i>选择文件
+                            <div class="file-download-zone p-6 text-center mb-4">
+                                <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
+                                <h4 class="text-xl font-semibold mb-2">实验报告</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">点击下方按钮下载完整的实验报告</p>
+                                <button id="downloadBtn" class="download-btn">
+                                    <i class="fas fa-download mr-2"></i>
+                                    下载PDF报告
                                 </button>
+                                <p class="text-sm text-gray-500 dark:text-gray-500 mt-3">文件大小: 约 1-10 MB | PDF格式</p>
                             </div>
-                            <div id="filePreview" class="hidden">
-                                <!-- 文件预览内容将通过JS动态插入 -->
-                            </div>
-                            <div id="uploadedFiles" class="space-y-3">
-                                <!-- 已上传文件列表将动态显示 -->
-                                <div class="text-sm text-gray-500 dark:text-gray-400 italic">暂无上传的文件。您可以通过上方区域上传项目相关的文档、报告或论文。</div>
+                            <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+                                <h4 class="font-medium mb-2 flex items-center">
+                                    <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                                    文件说明
+                                </h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">本报告详细记录了项目的实验设计、实施过程、数据分析及最终结论，是该项目的核心研究成果。</p>
                             </div>
                         </div>
 
@@ -364,36 +448,57 @@
             </div>
         </section>
 
-        <!-- 研究方法统计图表 -->
+        <!-- 研究方法与技能图表并排 -->
         <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-8 text-center">研究方法与工具分析</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="chart-container">
-                    <div id="methodChart" class="w-full h-full"></div>
+                <!-- 研究方法饼图 -->
+                <div>
+                    <div class="mb-4 text-center">
+                        <h3 class="text-xl font-semibold">研究方法分布</h3>
+                    </div>
+                    <div class="chart-container">
+                        <div id="methodChart" class="w-full h-full"></div>
+                    </div>
                 </div>
-                <div class="chart-container">
-                    <div id="toolChart" class="w-full h-full"></div>
+                <!-- 项目核心技能雷达图 -->
+                <div>
+                    <div class="mb-4 text-center">
+                        <h3 class="text-xl font-semibold">项目核心技能评估</h3>
+                    </div>
+                    <div class="chart-container">
+                        <div id="radarChart" class="w-full h-full"></div>
+                    </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- 项目技能雷达图 -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-8 text-center">项目核心技能雷达图</h2>
-            <div class="chart-container">
-                <div id="radarChart" class="w-full h-full"></div>
             </div>
         </section>
     </main>
 
     <!-- 页脚 -->
-    <footer class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-sm text-slate-500 dark:text-slate-400" style="color: var(--text-secondary);">
-            &copy; 2026 谢民辉。保留所有权利。
-        </p>
-        <p class="text-xs text-slate-400 dark:text-slate-500 mt-2" style="color: var(--text-secondary); opacity: 0.7;">
-            本内容由AI生成，可能存在错误或不准确之处。请在使用前自行核实信息的准确性。
-        </p>
+    <footer class="border-t">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm mb-2 md:mb-0">
+                    &copy; 2026 谢民辉.保留所有权利.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="transition-colors">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <a href="project.html" class="transition-colors">
+                        <i class="fas fa-project-diagram"></i>
+                    </a>
+                    <a href="experience.html" class="transition-colors">
+                        <i class="fas fa-briefcase"></i>
+                    </a>
+                    <a href="contact.html" class="transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <p class="text-xs mt-2 text-center">
+                本网站部署在GitHub Pages,有时您可能需要挂载VPN访问
+            </p>
+        </div>
     </footer>
 
     <!-- 右下角深色模式按钮 -->
@@ -402,7 +507,7 @@
     </div>
 
     <script>
-        // --- 深色模式逻辑 ---
+        // --- 深色模式逻辑 (与 experience 保持一致) ---
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
         
@@ -424,7 +529,6 @@
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
             localStorage.setItem('theme', 'dark');
-            refreshCharts(); // 切换时刷新图表颜色
         }
 
         function disableDarkMode() {
@@ -433,7 +537,6 @@
             themeIcon.classList.remove('fa-sun');
             themeIcon.classList.add('fa-moon');
             localStorage.setItem('theme', 'light');
-            refreshCharts(); // 切换时刷新图表颜色
         }
 
         // 绑定点击事件
@@ -447,121 +550,30 @@
             // 点击动画
             themeToggle.style.transform = 'scale(0.9)';
             setTimeout(() => themeToggle.style.transform = '', 200);
+
+            // 重新初始化图表以应用新颜色
+            initCharts();
         });
-
-        // --- 图表刷新逻辑 (适配深色模式) ---
-        let charts = []; // 存储图表实例
-
-        function refreshCharts() {
-            const isDark = document.body.classList.contains('dark');
-            const textColor = isDark ? '#f1f5f9' : '#1e293b';
-            const subTextColor = isDark ? '#94a3b8' : '#64748b';
-            const borderColor = isDark ? '#334155' : '#e2e8f0';
-            const bgColor = isDark ? '#1e293b' : '#ffffff';
-
-            charts.forEach(chart => {
-                if (chart) {
-                    const option = chart.getOption();
-                    // 更新标题颜色
-                    if (option.title) {
-                        option.title.textStyle = { ...option.title.textStyle, color: textColor };
-                    }
-                    // 更新图例颜色
-                    if (option.legend) {
-                        option.legend.textStyle = { ...option.legend.textStyle, color: textColor };
-                    }
-                    // 更新 X 轴
-                    if (option.xAxis) {
-                        const xAxis = Array.isArray(option.xAxis) ? option.xAxis : [option.xAxis];
-                        xAxis.forEach(axis => {
-                            if (axis.axisLine) axis.axisLine.lineStyle = { ...axis.axisLine.lineStyle, color: subTextColor };
-                            if (axis.splitLine) axis.splitLine.lineStyle = { ...axis.splitLine.lineStyle, color: borderColor };
-                        });
-                    }
-                    // 更新 Y 轴
-                    if (option.yAxis) {
-                        const yAxis = Array.isArray(option.yAxis) ? option.yAxis : [option.yAxis];
-                        yAxis.forEach(axis => {
-                            if (axis.axisLine) axis.axisLine.lineStyle = { ...axis.axisLine.lineStyle, color: subTextColor };
-                            if (axis.splitLine) axis.splitLine.lineStyle = { ...axis.splitLine.lineStyle, color: borderColor };
-                        });
-                    }
-                    // 更新雷达图特殊样式
-                    if (option.radar) {
-                        option.radar.axisLine = { ...option.radar.axisLine, lineStyle: { color: borderColor } };
-                        option.radar.splitLine = { ...option.radar.splitLine, lineStyle: { color: borderColor } };
-                        if(option.radar.splitArea) {
-                             option.radar.splitArea.areaStyle = { ...option.radar.splitArea.areaStyle, color: [bgColor, 'transparent'] };
-                        }
-                    }
-                    
-                    chart.setOption(option);
-                }
-            });
-        }
 
         // --- 主程序入口 ---
         document.addEventListener('DOMContentLoaded', function() {
             // 1. 初始化主题
             initTheme();
 
-            // 2. 文件上传逻辑
-            const fileInput = document.getElementById('fileInput');
-            const uploadBtn = document.getElementById('uploadBtn');
-            const fileUploadZone = document.getElementById('fileUploadZone');
-            const filePreview = document.getElementById('filePreview');
-            const uploadedFiles = document.getElementById('uploadedFiles');
-
-            uploadBtn.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', handleFileSelect);
-
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                fileUploadZone.addEventListener(eventName, preventDefaults, false);
-            });
-            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
-            ['dragenter', 'dragover'].forEach(eventName => {
-                fileUploadZone.addEventListener(eventName, highlight, false);
-            });
-            ['dragleave', 'drop'].forEach(eventName => {
-                fileUploadZone.addEventListener(eventName, unhighlight, false);
-            });
-            function highlight() { fileUploadZone.classList.add('drag-over'); }
-            function unhighlight() { fileUploadZone.classList.remove('drag-over'); }
-            fileUploadZone.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                handleFiles(dt.files);
-            }
-            function handleFileSelect(e) { handleFiles(e.target.files); }
-            
-            function handleFiles(files) {
-                if (files.length === 0) return;
-                const file = files[0];
-                const fileName = file.name;
-                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+            // 2. 设置下载按钮事件
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.addEventListener('click', function() {
+                // 创建隐藏的临时iframe来触发下载
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = 'https://raw.githubusercontent.com/AshXie86/MyResumeWeb/main/assets/documents/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.pdf';
+                document.body.appendChild(iframe);
                 
-                if (!file.type.includes('pdf') && !file.type.includes('word') && !fileName.endsWith('.docx')) {
-                    alert('仅支持 PDF 和 DOCX 格式的文件'); return;
-                }
-                if (file.size > 10 * 1024 * 1024) { alert('文件大小不能超过 10MB'); return; }
-
-                uploadedFiles.innerHTML = `
-                    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <i class="fas fa-file-pdf text-red-500 text-xl mr-3"></i>
-                                <div>
-                                    <h4 class="font-medium">${fileName}</h4>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">${fileSize} MB</p>
-                                </div>
-                            </div>
-                            <button class="text-blue-500 hover:text-blue-700" onclick="this.parentElement.parentElement.remove()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>`;
-            }
+                // 3秒后移除iframe
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 3000);
+            });
 
             // 3. 初始化图表
             initCharts();
@@ -574,7 +586,8 @@
                     text: isDark ? '#f1f5f9' : '#1e293b',
                     sub: isDark ? '#94a3b8' : '#64748b',
                     border: isDark ? '#334155' : '#e2e8f0',
-                    bg: isDark ? '#1e293b' : '#ffffff'
+                    bg: isDark ? '#1e293b' : '#ffffff',
+                    axis: isDark ? '#888888' : '#000000'
                 };
             };
             
@@ -582,23 +595,21 @@
 
             // 1. Timeline Chart
             const timelineChart = echarts.init(document.getElementById('timelineChart'));
-            charts.push(timelineChart);
             timelineChart.setOption({
                 title: { text: '项目进度时间线', left: 'center', textStyle: { color: c.text } },
                 tooltip: { trigger: 'axis' },
-                xAxis: { type: 'category', data: ['2024-11', '2024-12', '2025-01', '2025-03', '2025-05', '2025-07', '2025-09'], axisLine: { lineStyle: { color: c.sub } } },
-                yAxis: { type: 'value', name: '完成度 (%)', min: 0, max: 100, axisLine: { lineStyle: { color: c.sub } }, splitLine: { lineStyle: { color: c.border, type: 'dashed' } } },
+                xAxis: { type: 'category', data: ['2024-11', '2024-12', '2025-01', '2025-03', '2025-05', '2025-07', '2025-09'], axisLine: { lineStyle: { color: c.axis } } },
+                yAxis: { type: 'value', name: '完成度 (%)', min: 0, max: 100, axisLine: { lineStyle: { color: c.axis } }, splitLine: { lineStyle: { color: c.axis, type: 'dashed' } } },
                 series: [{ name: '项目进度', type: 'line', smooth: true, data: [10, 25, 40, 60, 75, 90, 100], lineStyle: { width: 4, color: '#3b82f6' }, itemStyle: { color: '#3b82f6' }, areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(59, 130, 246, 0.6)' }, { offset: 1, color: 'rgba(59, 130, 246, 0.1)' }]) } }],
                 grid: { left: '3%', right: '4%', bottom: '10%', top: '15%', containLabel: true }
             });
 
             // 2. Method Pie Chart
             const methodChart = echarts.init(document.getElementById('methodChart'));
-            charts.push(methodChart);
             methodChart.setOption({
-                title: { text: '研究方法分布', left: 'center', textStyle: { color: c.text } },
+                // title: { text: '研究方法分布', left: 'center', textStyle: { color: c.text } }, // 已移除
                 tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
-                legend: { orient: 'vertical', left: 'left', top: 'center', textStyle: { color: c.text } },
+                // legend: { orient: 'vertical', left: 'left', top: 'center', textStyle: { color: c.text } }, // 已移除
                 series: [{ type: 'pie', radius: ['40%', '70%'], itemStyle: { borderRadius: 10, borderColor: c.bg, borderWidth: 2 }, label: { show: true, formatter: '{b}: {d}%' }, data: [
                     { value: 40, name: '博弈论建模', itemStyle: { color: '#3b82f6' } },
                     { value: 25, name: '数值模拟', itemStyle: { color: '#10b981' } },
@@ -607,43 +618,74 @@
                 ]}]
             });
 
-            // 3. Tool Bar Chart
-            const toolChart = echarts.init(document.getElementById('toolChart'));
-            charts.push(toolChart);
-            toolChart.setOption({
-                title: { text: '工具使用频率', left: 'center', textStyle: { color: c.text } },
-                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-                grid: { left: '3%', right: '4%', bottom: '10%', top: '15%', containLabel: true },
-                xAxis: { type: 'value', axisLine: { lineStyle: { color: c.sub } }, splitLine: { lineStyle: { color: c.border, type: 'dashed' } } },
-                yAxis: { type: 'category', data: ['WPS Office', 'Microsoft Visio', 'Maple'], axisLine: { lineStyle: { color: c.sub } } },
-                series: [{ type: 'bar', data: [85, 70, 60], itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{ offset: 0, color: '#3b82f6' }, { offset: 1, color: '#8b5cf6' }]), borderRadius: [0, 5, 5, 0] }, label: { show: true, position: 'right', formatter: '{c}%' } }]
-            });
-
-            // 4. Radar Chart
+            // 3. Radar Chart - 优化版本
             const radarChart = echarts.init(document.getElementById('radarChart'));
-            charts.push(radarChart);
             radarChart.setOption({
-                title: { text: '项目核心技能评估', left: 'center', textStyle: { color: c.text } },
+                // title: { text: '项目核心技能评估', left: 'center', textStyle: { color: c.text }, top: 10 }, // 已移除
+                // legend: { data: ['当前项目'], bottom: 10, textStyle: { color: c.text } }, // 已移除
                 tooltip: {},
-                legend: { data: ['当前项目'], bottom: 10, textStyle: { color: c.text } },
                 radar: {
                     indicator: [
-                        { name: '数学建模', max: 100 }, { name: '数据分析', max: 100 }, { name: '编程实现', max: 100 },
-                        { name: '文献调研', max: 100 }, { name: '报告撰写', max: 100 }, { name: '团队协作', max: 100 }
+                        { name: '数学建模', max: 100 }, { name: '数据分析', max: 100 }, { name: '文献调研', max: 100 },
+                        { name: '归纳总结', max: 100 }, { name: '报告撰写', max: 100 }, { name: '团队协作', max: 100 }
                     ],
                     shape: 'circle', splitNumber: 5,
-                    axisLine: { lineStyle: { color: c.border } },
-                    splitLine: { lineStyle: { color: c.border, type: 'dashed' } },
-                    splitArea: { show: true, areaStyle: { color: [c.bg, 'transparent'] } }
+                    axisLine: { 
+                        lineStyle: { 
+                            color: c.axis,
+                            width: 1
+                        } 
+                    },
+                    splitLine: { 
+                        lineStyle: { 
+                            color: c.axis, 
+                            type: 'dashed',
+                            width: 1
+                        } 
+                    },
+                    splitArea: { 
+                        show: true, 
+                        areaStyle: { 
+                            color: ['rgba(255, 255, 255, 0.1)', 'rgba(255, 255, 255, 0.1)'] // 浅色模式下统一使用透明度较低的灰色
+                        },
+                        opacity: 0.1
+                    },
+                    center: ['50%', '50%'],
+                    radius: '60%'
                 },
-                series: [{ type: 'radar', data: [{ value: [85, 80, 70, 90, 85, 75], name: '当前项目', symbol: 'circle', symbolSize: 8, lineStyle: { width: 3, color: '#3b82f6' }, areaStyle: { color: 'rgba(59, 130, 246, 0.3)' } }] }]
+                series: [{ 
+                    type: 'radar', 
+                    data: [{
+                        value: [85, 80, 70, 90, 85, 75], 
+                        name: '当前项目', 
+                        symbol: 'circle', 
+                        symbolSize: 8, 
+                        lineStyle: { width: 3, color: '#3b82f6' }, 
+                        areaStyle: { color: 'rgba(59, 130, 246, 0.3)' } 
+                    }] 
+                }]
             });
 
             // 响应式调整
             window.addEventListener('resize', () => {
-                charts.forEach(c => c && c.resize());
+                timelineChart.resize();
+                methodChart.resize();
+                radarChart.resize();
             });
         }
+
+        // 4. 深色模式媒体查询监听 (保留，用于无本地存储时的初始判断)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+                // 重新初始化图表以应用新颜色
+                initCharts();
+            }
+        });
     </script>
 </body>
 </html>
