@@ -30,11 +30,22 @@
             /* 新增：导航栏玻璃态变量 */
             --glass-bg: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
+            /* 页脚相关变量 */
+            --footer-bg: #ffffff;
+            --footer-text: #64748b;
+            --footer-link: #64748b;
+            --footer-link-hover: #3b82f6;
+            --footer-border: #e2e8f0;
         }
         
         .dark {
             --glass-bg: rgba(30, 41, 59, 0.6);
             --glass-border: rgba(255, 255, 255, 0.05);
+            --footer-bg: #1e293b;
+            --footer-text: #cbd5e1;
+            --footer-link: #94a3b8;
+            --footer-link-hover: #60a5fa;
+            --footer-border: #334155;
         }
         
         * {
@@ -50,6 +61,8 @@
             color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         .dark body {
@@ -297,6 +310,26 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(67, 97, 238, 0.7);
         }
+        
+        /* 页脚样式 */
+        footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--footer-border);
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            font-size: 0.875rem;
+            width: 100%;
+        }
+
+        footer a {
+            color: var(--footer-link);
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--footer-link-hover);
+        }
     </style>
 </head>
 <body>
@@ -336,7 +369,7 @@
     </nav>
     
     <!-- 页面容器 (注意 pt-28 以避免被顶部导航遮挡) -->
-    <div class="container mx-auto px-4 py-8 pt-28 max-w-6xl">
+    <div class="container mx-auto px-4 py-8 pt-28 max-w-6xl flex-grow">
         
         <!-- 首页内容 -->
         <div class="page active" id="home">
@@ -449,20 +482,39 @@
         </div>
     </div>
 	
-	<!-- 页脚 -->
-    <footer class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-sm text-slate-500 dark:text-slate-400" style="color: var(--text-secondary);">
-            &copy; 2026 谢民辉。保留所有权利。
-        </p>
-        <p class="text-xs text-slate-400 dark:text-slate-500 mt-2" style="color: var(--text-secondary); opacity: 0.7;">
-            本内容由AI生成，可能存在错误或不准确之处。请在使用前自行核实信息的准确性。
-        </p>
-    </footer>
     <!-- 右下角深色模式按钮 -->
     <div class="theme-toggle-fixed interactive" id="themeToggle" title="切换深色模式">
         <i class="fas fa-moon"></i>
     </div>
     
+	<!-- 页脚 -->
+    <footer class="border-t">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+             <div class="flex flex-col md:flex-row justify-between items-center">
+                 <p class="text-sm mb-2 md:mb-0">
+                     &copy; 2026 谢民辉.保留所有权利.
+                 </p>
+                 <div class="flex items-center space-x-4">
+                     <a href="index.html" class="transition-colors">
+                         <i class="fas fa-home"></i>
+                     </a>
+                     <a href="project.html" class="transition-colors">
+                         <i class="fas fa-project-diagram"></i>
+                     </a>
+                     <a href="experience.html" class="transition-colors">
+                         <i class="fas fa-briefcase"></i>
+                     </a>
+                     <a href="contact.html" class="transition-colors">
+                         <i class="fas fa-envelope"></i>
+                     </a>
+                 </div>
+             </div>
+             <p class="text-xs mt-2 text-center">
+                 本网站部署在GitHub Pages,有时您可能需要挂载VPN访问
+             </p>
+         </div>
+    </footer>
+	
     <!-- 脚本 -->
     <script>
         // 深色模式切换逻辑
@@ -479,10 +531,12 @@
             
             if (isDark) {
                 document.documentElement.classList.add('dark');
+                document.body.classList.add('dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
             } else {
                 document.documentElement.classList.remove('dark');
+                document.body.classList.remove('dark');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
             }
@@ -490,7 +544,8 @@
         
         // 切换主题
         themeToggle.addEventListener('click', () => {
-            const isDark = document.documentElement.classList.toggle('dark');
+            const isDark = document.body.classList.toggle('dark');
+            document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             
             // 更新图标
