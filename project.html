@@ -280,6 +280,15 @@
     body.dark .glass-card .space-y-3.text-gray-700 {
         color: rgb(150, 150, 150) !important;
     }
+    
+    /* 修复下载说明区域的深色模式适配 */
+    body.dark .bg-gray-100 {
+        background-color: var(--bg-secondary) !important;
+    }
+    
+    body.dark .text-gray-600 {
+        color: var(--text-secondary) !important;
+    }
     </style>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 <script>
