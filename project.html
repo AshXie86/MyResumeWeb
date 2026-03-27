@@ -429,10 +429,12 @@
                                 <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
                                 <h4 class="text-xl font-semibold mb-2">平台对竞争零售商的数据赋能策略研究 实验报告</h4>
                                 <p class="text-gray-600 dark:text-gray-400 mb-4">点击下方按钮下载完整的实验报告</p>
-                                <button id="downloadBtn" class="download-btn">
+                                <a id="downloadLink" href="https://raw.githubusercontent.com/AshXie86/MyResumeWeb/main/assets/documents/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.pdf" 
+                                   download="平台对竞争零售商的数据赋能策略研究_实验报告.pdf" 
+                                   class="download-btn">
                                     <i class="fas fa-download mr-2"></i>
                                     下载PDF报告
-                                </button>
+                                </a>
                                 <p class="text-sm text-gray-500 dark:text-gray-500 mt-3">文件大小: 约 1.4 MB | PDF格式</p>
                             </div>
                             <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
@@ -569,20 +571,8 @@
             // 1. 初始化主题
             initTheme();
 
-            // 2. 设置下载按钮事件
-            const downloadBtn = document.getElementById('downloadBtn');
-            downloadBtn.addEventListener('click', function() {
-                // 创建隐藏的临时iframe来触发下载
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.src = 'https://raw.githubusercontent.com/AshXie86/MyResumeWeb/main/assets/documents/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.pdf';
-                document.body.appendChild(iframe);
-                
-                // 3秒后移除iframe
-                setTimeout(() => {
-                    document.body.removeChild(iframe);
-                }, 3000);
-            });
+            // 2. 由于现在使用了直接链接，不再需要JavaScript下载处理
+            // 原来的下载按钮现在是一个带download属性的链接，天然支持移动端
 
             // 3. 初始化图表
             initCharts();
