@@ -1,589 +1,822 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>谢民辉 - 个人网站</title>
-    
-    <!-- 第三方库导入 -->
-    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/fontawesome-free-7.1.0-web/js/all.min.js"></script>
-    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/3.4.17.js"></script>
-    <!-- 引入 ECharts 以保持一致性 (虽然首页没图表，但防止后续扩展需要) -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    
-    <style>
-        :root {
-            --primary-light: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary-light: #7209b7;
-            --secondary-dark: #5a08a0;
-            --accent-light: #4cc9f0;
-            --accent-dark: #3ab7e0;
-            --bg-light: #f8f9fa;
-            --bg-dark: #0f172a;
-            --surface-light: #ffffff;
-            --surface-dark: #1e293b;
-            --text-light: #1e293b;
-            --text-dark: #f1f5f9;
-            --border-light: #e2e8f0;
-            --border-dark: #334155;
-            /* 新增：导航栏玻璃态变量 */
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            /* 页脚相关变量 */
-            --footer-bg: #ffffff;
-            --footer-text: #64748b;
-            --footer-link: #64748b;
-            --footer-link-hover: #3b82f6;
-            --footer-border: #e2e8f0;
-        }
-        
-        .dark {
-            --glass-bg: rgba(30, 41, 59, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.05);
-            --footer-bg: #1e293b;
-            --footer-text: #cbd5e1;
-            --footer-link: #94a3b8;
-            --footer-link-hover: #60a5fa;
-            --footer-border: #334155;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .dark body {
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-        }
-        
-        /* 高斯模糊元素通用类 */
-        .glass-effect {
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            background-color: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-        
-        .dark .glass-effect {
-            background-color: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        /* 毛玻璃卡片 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-        }
-        
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* 交互反馈 */
-        .interactive:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .dark .interactive:hover {
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-            color: white;
-            padding: 12px 28px;
-            border-radius: 10px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
-        }
-        
-        /* 英雄区域背景 */
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #4361ee30 0%, #7209b730 100%);
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .hero-bg::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #4cc9f040 0%, transparent 70%);
-            top: 10%;
-            left: 10%;
-            filter: blur(40px);
-        }
-        
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #7209b740 0%, transparent 70%);
-            bottom: 10%;
-            right: 10%;
-            filter: blur(50px);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>谢民辉 - 个人主页</title>
+  <meta name="description" content="谢民辉的个人主页 —— 电子商务专业 · 品牌助理 · 数据分析与策略研究">
 
-        /* --- 顶部高斯模糊导航栏样式 --- */
-        .glass-nav {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: 'var(--c-background)',
+            foreground: 'var(--c-foreground)',
+            card: 'var(--c-card)',
+            primary: 'var(--c-primary)',
+            'primary-foreground': 'var(--c-primary-foreground)',
+            secondary: 'var(--c-secondary)',
+            accent: 'var(--c-accent)',
+            muted: 'var(--c-muted)',
+            'muted-foreground': 'var(--c-muted-foreground)',
+            border: 'var(--c-border)',
+            success: 'var(--c-success)'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro SC"', '"PingFang SC"', '"Segoe UI"', '"Microsoft YaHei"', '"Helvetica Neue"', 'sans-serif'],
+            mono: ['"SF Mono"', '"JetBrains Mono"', 'ui-monospace', 'Consolas', 'monospace']
+          },
+          borderRadius: {
+            sm: '0.5rem',
+            md: '0.75rem',
+            lg: '1rem',
+            xl: '1.5rem'
+          },
+          boxShadow: {
+            't-2xs': 'var(--s-2xs)',
+            't-xs': 'var(--s-xs)',
+            't-sm': 'var(--s-sm)',
+            't-md': 'var(--s-md)',
+            't-lg': 'var(--s-lg)'
+          }
         }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        @supports not (backdrop-filter: blur(12px)) {
-            .glass-nav {
-                background: var(--surface-light);
-            }
-            .dark .glass-nav {
-                background: var(--surface-dark);
-            }
-        }
-        
-        /* 技能标签 */
-        .skill-tag {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin: 5px;
-            font-weight: 500;
-        }
-        
-        .dark .skill-tag {
-            background: linear-gradient(135deg, var(--primary-dark), var(--accent-dark));
-        }
-        
-        /* 联系卡片 */
-        .contact-card {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            border-radius: 16px;
-            background-color: var(--surface-light);
-            margin-bottom: 15px;
-            border: 1px solid var(--border-light);
-        }
-        
-        .dark .contact-card {
-            background-color: var(--surface-dark);
-            border-color: var(--border-dark);
-        }
-        
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            color: white;
-            font-size: 22px;
-        }
-        
-        /* --- 右下角固定深色模式按钮 --- */
-        .theme-toggle-fixed {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--surface-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1002;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
-        }
+  <style>
+    /* ============================================================
+       设计令牌 · 双层架构
+       primitive（原始色板）→ semantic（语义角色）
+       主色锚定 Apple System Blue #007AFF
+       ============================================================ */
+    :root {
+      /* --- Primitive: brand 蓝 --- */
+      --brand-50:  #e8f2ff;
+      --brand-100: #cfe5ff;
+      --brand-200: #9fcbff;
+      --brand-300: #66abff;
+      --brand-400: #2e8dff;
+      --brand-500: #007aff;   /* @primary  System Blue */
+      --brand-600: #0064d6;
+      --brand-700: #004fad;
+      --brand-800: #003b82;
+      --brand-900: #00275a;
 
-        .dark .theme-toggle-fixed {
-            background-color: var(--surface-dark);
-            border-color: var(--border-dark);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        }
+      /* --- Primitive: background 灰阶 --- */
+      --bg-50:  #ffffff;
+      --bg-100: #f7f7fa;
+      --bg-200: #f2f2f7;
+      --bg-300: #e5e5ea;
+      --bg-400: #d1d1d6;
+      --bg-500: #aeaeb2;
+      --bg-600: #8e8e93;
+      --bg-700: #3a3a3c;
+      --bg-800: #1c1c1e;
+      --bg-900: #000000;
 
-        .theme-toggle-fixed i {
-            font-size: 22px;
-            color: var(--primary-light);
-            transition: transform 0.5s ease;
-        }
+      /* --- Primitive: text 灰阶 --- */
+      --text-50:  #f5f5f7;
+      --text-100: #e3e3e8;
+      --text-200: #c7c7cc;
+      --text-300: #aeaeb2;
+      --text-400: #8e8e93;
+      --text-500: #6e6e73;
+      --text-600: #48484a;
+      --text-700: #3c3c43;
+      --text-800: #1d1d1f;
+      --text-900: #000000;
 
-        .dark .theme-toggle-fixed i {
-            color: var(--accent-dark);
-            transform: rotate(180deg);
-        }
+      /* --- Primitive: state --- */
+      --state-success: #34c759;
+      --state-error:   #ff3b30;
 
-        .theme-toggle-fixed:hover {
-            transform: scale(1.1);
-        }
+      /* --- Semantic: 浅色模式（默认） --- */
+      --c-background: #ffffff;
+      --c-foreground: #1d1d1f;
+      --c-card: #ffffff;
+      --c-primary: #007aff;
+      --c-primary-foreground: #ffffff;
+      --c-secondary: #f2f2f7;
+      --c-accent: #f7f7fa;
+      --c-muted: #f2f2f7;
+      --c-muted-foreground: #8e8e93;
+      --c-border: #e5e5ea;
+      --c-success: #34c759;
 
-        @media (max-width: 640px) {
-            .theme-toggle-fixed {
-                width: 45px;
-                height: 45px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .theme-toggle-fixed i {
-                font-size: 18px;
-            }
-            
-            /* 移动端导航调整 */
-            .glass-nav {
-                padding: 0 15px;
-            }
-            .glass-nav span:not(.font-bold) {
-                display: none; /* 移动端隐藏文字，只留图标 */
-            }
-            .glass-nav .space-x-6 {
-                space-x: 4;
-            }
-        }
-        
-        /* 滚动条样式 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 4px;
-        }
-        
-        .dark ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: rgba(67, 97, 238, 0.5);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(67, 97, 238, 0.7);
-        }
-        
-        /* 页脚样式 */
-        footer {
-            margin-top: auto;
-            padding-top: 2rem;
-            border-top: 1px solid var(--footer-border);
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            font-size: 0.875rem;
-            width: 100%;
-        }
+      /* --- 玻璃材质参数（浅色） --- */
+      --glass-tint: rgba(255, 255, 255, 0.62);
+      --glass-border: rgba(255, 255, 255, 0.75);
+      --glass-edge: rgba(0, 0, 0, 0.06);
+      --glass-shadow: 0 6px 24px -8px rgba(0, 0, 0, 0.12), 0 2px 6px -2px rgba(0, 0, 0, 0.06);
 
-        footer a {
-            color: var(--footer-link);
-            transition: color 0.3s ease;
-        }
+      /* --- 阴影 --- */
+      --s-2xs: 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+      --s-xs:  0 1px 2px 0 rgba(0, 0, 0, 0.04);
+      --s-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.05);
+      --s-md:  0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --s-lg:  0 8px 24px -8px rgba(0, 0, 0, 0.08), 0 4px 8px -4px rgba(0, 0, 0, 0.05);
+      --s-hover: 0 16px 36px -14px rgba(0, 0, 0, 0.16), 0 4px 12px -4px rgba(0, 0, 0, 0.07);
 
-        footer a:hover {
-            color: var(--footer-link-hover);
-        }
-    </style>
+      /* --- 缓动曲线 --- */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring:   cubic-bezier(0.2, 1.42, 0.34, 1);
+
+      /* --- 氛围光晕（浅色：极淡系统蓝，只做氛围不抢主体） --- */
+      --glow-1: radial-gradient(closest-side, rgba(0, 122, 255, 0.10), rgba(0, 122, 255, 0) 100%);
+      --glow-2: radial-gradient(closest-side, rgba(46, 141, 255, 0.08), rgba(46, 141, 255, 0) 100%);
+      --glow-3: radial-gradient(closest-side, rgba(120, 180, 255, 0.09), rgba(120, 180, 255, 0) 100%);
+
+      color-scheme: light;
+    }
+
+    /* --- Semantic: 深色模式（可选，非默认） --- */
+    html.dark {
+      --c-background: #000000;
+      --c-foreground: #f5f5f7;
+      --c-card: #1c1c1e;
+      --c-primary: #2e8dff;
+      --c-primary-foreground: #000000;
+      --c-secondary: #1c1c1e;
+      --c-accent: #2c2c2e;
+      --c-muted: #1c1c1e;
+      --c-muted-foreground: #8e8e93;
+      --c-border: #3a3a3c;
+      --c-success: #30d158;
+
+      --glass-tint: rgba(30, 30, 32, 0.58);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-edge: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.65), 0 2px 6px -2px rgba(0, 0, 0, 0.5);
+
+      --s-2xs: 0 1px 2px -1px rgba(0, 0, 0, 0.30);
+      --s-xs:  0 1px 2px 0 rgba(0, 0, 0, 0.30);
+      --s-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.36), 0 1px 3px -1px rgba(0, 0, 0, 0.36);
+      --s-md:  0 4px 8px -2px rgba(0, 0, 0, 0.44), 0 2px 4px -2px rgba(0, 0, 0, 0.36);
+      --s-lg:  0 8px 24px -8px rgba(0, 0, 0, 0.50), 0 4px 8px -4px rgba(0, 0, 0, 0.40);
+      --s-hover: 0 18px 40px -16px rgba(0, 0, 0, 0.62), 0 4px 14px -4px rgba(0, 0, 0, 0.45);
+
+      /* 深色模式下光晕更明显一点，仍保持克制 */
+      --glow-1: radial-gradient(closest-side, rgba(46, 141, 255, 0.22), rgba(46, 141, 255, 0) 100%);
+      --glow-2: radial-gradient(closest-side, rgba(90, 69, 255, 0.16), rgba(90, 69, 255, 0) 100%);
+      --glow-3: radial-gradient(closest-side, rgba(120, 180, 255, 0.14), rgba(120, 180, 255, 0) 100%);
+
+      color-scheme: dark;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro SC", "PingFang SC",
+                   "Segoe UI", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      background-color: var(--c-background);
+      color: var(--c-foreground);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    /* ============================================================
+       Liquid Glass 材质
+       ------------------------------------------------------------
+       Apple 的 Liquid Glass 是系统级渲染材质，Web 无官方 API 可调用。
+       用「backdrop-filter 模糊 + saturate 提饱和」叠加
+       「SVG feDisplacementMap 位移滤镜」模拟折射畸变。
+       浏览器不支持 backdrop-filter 时，@supports 自动降级为纯半透明。
+       ============================================================ */
+    .liquid-glass {
+      position: relative;
+      background-color: var(--glass-tint);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      isolation: isolate;
+    }
+
+    /* 顶部高光边：模拟玻璃厚度产生的镜面反射 */
+    .liquid-glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        160deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.16) 28%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.28) 100%
+      );
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+    }
+    html.dark .liquid-glass::before { opacity: 0.5; }
+
+    /* 折射层：SVG 位移滤镜做边缘扭曲，模拟玻璃透镜 */
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+      .liquid-glass--refract::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        -webkit-backdrop-filter: url(#lg-displace) blur(2px);
+        backdrop-filter: url(#lg-displace) blur(2px);
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.9;
+      }
+    }
+
+    /* 完全不支持 backdrop-filter 时的降级：纯半透明底 */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .liquid-glass {
+        background-color: var(--c-card);
+        opacity: 0.97;
+      }
+    }
+
+    /* 胶囊外形（液体玻璃椭圆） */
+    .pill-glass {
+      border-radius: 999px;
+    }
+
+    /* ============================================================
+       卡片悬停：微抬升 + 阴影扩散 + 边框高亮 + 弹性回弹
+       ============================================================ */
+    .card-lift {
+      transition: transform 0.42s var(--ease-spring),
+                  box-shadow 0.32s var(--ease-out-expo),
+                  border-color 0.32s ease;
+      will-change: transform;
+    }
+    .card-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--s-hover);
+      border-color: color-mix(in srgb, var(--c-primary) 28%, var(--c-border));
+    }
+    .card-lift:hover .card-icon {
+      transform: scale(1.08) rotate(-3deg);
+      background-color: color-mix(in srgb, var(--c-primary) 18%, transparent);
+    }
+    .card-icon {
+      transition: transform 0.42s var(--ease-spring),
+                  background-color 0.3s ease;
+    }
+
+    /* ============================================================
+       滚动进场 v2：blur 消散 + 上移 + 分层延迟
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(10px);
+      transition: opacity 0.8s var(--ease-out-expo),
+                  transform 0.8s var(--ease-out-expo),
+                  filter 0.8s var(--ease-out-expo);
+      transition-delay: var(--reveal-delay, 0s);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    /* ============================================================
+       Hero 氛围光晕：多层柔光缓慢呼吸漂移
+       ============================================================ */
+    .glow-field {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100%;
+      pointer-events: none;
+      z-index: -10;
+      overflow: hidden;
+    }
+    .glow-orb {
+      position: absolute;
+      border-radius: 999px;
+      will-change: transform, opacity;
+    }
+    .glow-orb--1 {
+      top: -6%; right: 6%;
+      width: 34rem; height: 34rem;
+      background: var(--glow-1);
+      animation: glow-drift-1 18s ease-in-out infinite;
+    }
+    .glow-orb--2 {
+      bottom: 2%; left: 2%;
+      width: 30rem; height: 30rem;
+      background: var(--glow-2);
+      animation: glow-drift-2 22s ease-in-out infinite;
+    }
+    .glow-orb--3 {
+      top: 34%; left: 42%;
+      width: 22rem; height: 22rem;
+      background: var(--glow-3);
+      animation: glow-drift-3 26s ease-in-out infinite;
+    }
+    @keyframes glow-drift-1 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.9; }
+      50%      { transform: translate3d(-3%, 4%, 0) scale(1.12); opacity: 1; }
+    }
+    @keyframes glow-drift-2 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+      50%      { transform: translate3d(4%, -3%, 0) scale(1.1); opacity: 1; }
+    }
+    @keyframes glow-drift-3 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.7; }
+      50%      { transform: translate3d(-4%, -4%, 0) scale(1.16); opacity: 0.95; }
+    }
+
+    /* 主按钮：悬停微升 + 弹性，按压回弹 */
+    .btn-spring {
+      transition: transform 0.34s var(--ease-spring),
+                  box-shadow 0.28s var(--ease-out-expo),
+                  border-color 0.24s ease,
+                  background-color 0.24s ease,
+                  color 0.24s ease,
+                  filter 0.24s ease;
+    }
+    .btn-spring:hover { transform: translateY(-2px); }
+    .btn-spring:active { transform: translateY(0) scale(0.97); }
+
+    /* 导航内主题按钮 */
+    #themeToggle {
+      transition: transform 0.34s var(--ease-spring),
+                  background-color 0.3s ease, color 0.3s ease;
+    }
+    #themeToggle:hover { transform: scale(1.08); }
+    #themeToggle:active { transform: scale(0.94); }
+
+    /* 导航滚动变形：下滚后胶囊收窄 + 阴影加重 */
+    #navShell {
+      transition: transform 0.42s var(--ease-out-expo),
+                  box-shadow 0.42s var(--ease-out-expo),
+                  background-color 0.42s ease,
+                  border-color 0.42s ease;
+    }
+    body.is-scrolled #navShell {
+      transform: scale(0.985);
+      box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.18), 0 3px 10px -3px rgba(0, 0, 0, 0.08);
+    }
+    html.dark body.is-scrolled #navShell {
+      box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.72), 0 3px 10px -3px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 聚焦环：仅键盘导航可见 */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--c-primary);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+      .card-lift, .card-icon, #themeToggle, .btn-spring, #navShell { transition: none; }
+      .glow-orb { animation: none; }
+    }
+
+    /* 自定义滚动条 */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg-400);
+      border-radius: 999px;
+      border: 3px solid var(--c-background);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--bg-500); }
+  </style>
 </head>
-<body>
-    <!-- 英雄区域背景装饰 -->
-    <div class="hero-bg"></div>
 
-    <!-- 顶部高斯模糊导航栏 -->
-    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 mx-auto max-w-7xl mt-4 rounded-2xl px-6 py-3 flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-            <i class="fas fa-code text-xl text-blue-500 dark:text-blue-400"></i>
-            <span class="text-lg font-semibold">个人主页</span>
-        </div>
-        <div class="flex space-x-6">
-            <!-- 首页 (当前页高亮) -->
-            <a href="index.html" class="text-blue-500 dark:text-blue-400 font-semibold border-b-2 border-blue-500 pb-1 flex items-center space-x-1">
-                <i class="fas fa-home"></i>
-                <span>首页</span>
-            </a>
-            <!-- 其他页面链接 -->
-            <a href="project.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
-                <i class="fas fa-project-diagram"></i>
-                <span>项目详情</span>
-            </a>
-            <a href="experience.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
-                <i class="fas fa-briefcase"></i>
-                <span>工作经历</span>
-            </a>
-            <a href="contact.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
-                <i class="fas fa-envelope"></i>
-                <span>联系方式</span>
-            </a>
-        </div>
-        <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold">X</div>
-            <span class="hidden md:inline text-sm font-medium">个人空间</span>
-        </div>
-    </nav>
-    
-    <!-- 页面容器 (注意 pt-28 以避免被顶部导航遮挡) -->
-    <div class="container mx-auto px-4 py-8 pt-28 max-w-6xl flex-grow">
-        
-        <!-- 首页内容 -->
-        <div class="page active" id="home">
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">谢民辉</h1>
-                <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">电子商务专业 · 品牌助理 · 数据分析与策略研究</p>
-                
-                <!-- Hero图片区域 -->
-                <div class="relative w-48 h-48 mx-auto mb-8">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
-                    <div class="absolute inset-4 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
-                        <div class="text-6xl font-bold text-blue-500">X</div>
-                    </div>
-                </div>
-                
-                <div class="max-w-2xl mx-auto">
-                    <p class="text-lg mb-6">西南石油大学电子商务专业本科生，专注于数据赋能策略、市场竞争分析与品牌运营，具备扎实的博弈论建模与市场分析能力。</p>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <!-- 自我评价 -->
-                <div class="glass-card interactive p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center mr-4">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold">自我评价</h3>
-                    </div>
-                    <p class="text-gray-700 dark:text-gray-300">具备较强的数据分析与市场洞察能力，能够通过博弈论模型分析市场竞争机制。善于团队协作与跨部门沟通，拥有扎实的品牌运营与项目管理经验，对电商平台数据赋能策略有深入研究。</p>
-                </div>
-                
-                <!-- 基本信息 -->
-                <div class="glass-card interactive p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-blue-400 flex items-center justify-center mr-4">
-                            <i class="fas fa-info-circle text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold">基本信息</h3>
-                    </div>
-                    <ul class="space-y-2">
-                        <li class="flex">
-                            <span class="font-medium w-24">年龄：</span>
-                            <span>20岁</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-medium w-24">性别：</span>
-                            <span>男</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-medium w-24">学历：</span>
-                            <span>本科</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-medium w-24">院校：</span>
-                            <span>西南石油大学</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-medium w-24">专业：</span>
-                            <span>电子商务</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- 个人优势 -->
-                <div class="glass-card interactive p-6">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center mr-4">
-                            <i class="fas fa-star text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold">个人优势</h3>
-                    </div>
-                    <ul class="space-y-3">
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                            <span>数据建模与博弈论分析能力</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                            <span>市场分析与品牌运营经验</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                            <span>跨部门协调与项目管理能力</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                            <span>社群运营与用户增长策略</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- 教育经历 -->
-            <div class="glass-card interactive p-6 mb-12">
-                <h3 class="text-2xl font-bold mb-6 flex items-center">
-                    <i class="fas fa-graduation-cap mr-3 text-blue-500"></i>
-                    教育经历
-                </h3>
-                <div class="flex flex-col md:flex-row items-start md:items-center">
-                    <div class="mb-4 md:mb-0 md:mr-8">
-                        <div class="text-4xl font-bold text-blue-500">西南石油大学</div>
-                        <div class="text-lg font-medium mt-1">电子商务专业 · 本科</div>
-                    </div>
-                    <div class="bg-blue-100 dark:bg-blue-900 px-4 py-2 rounded-lg">
-                        <div class="text-blue-700 dark:text-blue-300 font-medium">2023.09 ~ 2027.08</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body class="min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- Liquid Glass 折射滤镜定义（不可见，供 backdrop-filter 引用） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="lg-displace" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.016" numOctaves="2"
+                      seed="7" result="noise"/>
+        <feGaussianBlur in="noise" stdDeviation="2" result="softNoise"/>
+        <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="10"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ============================================================
+       顶部悬浮胶囊导航（主题按钮已集成在内）
+       ============================================================ -->
+  <nav data-dom-id="nav-bar"
+       class="fixed top-0 left-0 right-0 z-50 mx-auto mt-4 max-w-6xl px-4">
+    <div id="navShell" class="liquid-glass liquid-glass--refract pill-glass flex items-center justify-between gap-3 px-4 py-2.5 md:px-6 md:py-3">
+
+      <a href="index.html" data-dom-id="nav-logo"
+         class="relative z-[2] flex shrink-0 items-center gap-2 font-semibold text-foreground">
+        <i class="fa-solid fa-code text-primary" aria-hidden="true"></i>
+        <span class="hidden sm:inline">谢民辉</span>
+      </a>
+
+      <div class="relative z-[2] flex items-center gap-0.5 md:gap-1.5">
+        <a href="index.html" data-dom-id="nav-index" aria-current="page"
+           class="flex items-center gap-1.5 rounded-full bg-accent px-3 py-2 text-sm font-medium text-foreground transition-colors">
+          <i class="fa-solid fa-house text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">首页</span>
+        </a>
+        <a href="project.html" data-dom-id="nav-project"
+           class="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+          <i class="fa-solid fa-folder-open text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">项目详情</span>
+        </a>
+        <a href="experience.html" data-dom-id="nav-experience"
+           class="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+          <i class="fa-solid fa-briefcase text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">工作经历</span>
+        </a>
+        <a href="contact.html" data-dom-id="nav-contact"
+           class="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+          <i class="fa-solid fa-envelope text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">联系方式</span>
+        </a>
+      </div>
+
+      <!-- 主题切换按钮（集成在悬浮栏内） -->
+      <button id="themeToggle" type="button" aria-label="切换深色模式" title="切换深色模式"
+              class="relative z-[2] flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/70 text-muted-foreground">
+        <i class="fa-solid fa-moon text-sm" data-icon="moon" aria-hidden="true"></i>
+        <i class="fa-solid fa-sun hidden text-sm" data-icon="sun" aria-hidden="true"></i>
+      </button>
+
     </div>
-	
-    <!-- 右下角深色模式按钮 -->
-    <div class="theme-toggle-fixed interactive" id="themeToggle" title="切换深色模式">
-        <i class="fas fa-moon"></i>
+  </nav>
+
+  <main class="flex-1">
+
+    <!-- ============================================================
+         Hero · 左文 + 右图（圆形头像）
+         ============================================================ -->
+    <section class="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+      <!-- 氛围光晕：多层柔光缓慢呼吸漂移 -->
+      <div class="glow-field" aria-hidden="true">
+        <div class="glow-orb glow-orb--1"></div>
+        <div class="glow-orb glow-orb--2"></div>
+        <div class="glow-orb glow-orb--3"></div>
+      </div>
+
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid grid-cols-1 items-center gap-12 md:grid-cols-[1fr_auto] md:gap-16">
+
+          <!-- 左：文字（分层延迟进场） -->
+          <div class="relative z-[2] text-center md:text-left">
+            <p class="reveal mb-3 text-sm font-medium tracking-wide text-muted-foreground md:text-base"
+               style="--reveal-delay: 0.05s">
+              你好，我是
+            </p>
+
+            <h1 class="reveal mb-4 text-4xl font-semibold tracking-tight text-foreground md:text-6xl"
+                style="--reveal-delay: 0.14s">
+              谢民辉
+            </h1>
+
+            <p class="reveal mb-6 text-lg text-muted-foreground md:text-xl"
+               style="--reveal-delay: 0.24s">
+              电子商务专业 · 品牌助理 · 数据分析与策略研究
+            </p>
+
+            <p class="reveal mx-auto mb-9 max-w-xl text-base leading-relaxed text-foreground/75 md:mx-0 md:text-lg"
+               style="--reveal-delay: 0.34s">
+              西南石油大学电子商务专业本科生，专注于数据赋能策略、市场竞争分析与品牌运营，具备扎实的博弈论建模与市场分析能力。
+            </p>
+
+            <div class="reveal flex flex-wrap items-center justify-center gap-3 md:justify-start"
+                 style="--reveal-delay: 0.44s">
+              <a href="project.html"
+                 class="btn-spring group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-t-sm hover:brightness-95 hover:shadow-t-md">
+                查看项目
+                <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1" aria-hidden="true"></i>
+              </a>
+              <a href="contact.html"
+                 class="btn-spring inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground hover:bg-accent">
+                <i class="fa-regular fa-envelope text-xs" aria-hidden="true"></i>
+                联系我
+              </a>
+            </div>
+          </div>
+
+          <!-- 右：圆形头像 -->
+          <figure class="reveal order-first flex justify-center md:order-last md:justify-end"
+                  style="--reveal-delay: 0.12s">
+            <img src="个人图片.jpg" alt="谢民辉个人照片"
+                 class="h-44 w-44 rounded-full border-4 border-card object-cover shadow-t-lg md:h-56 md:w-56">
+          </figure>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         三卡片并置
+         ============================================================ -->
+    <section class="pb-20 md:pb-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+
+          <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm"
+                   style="--reveal-delay: 0.05s">
+            <div class="mb-5 flex items-center gap-3">
+              <div class="card-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <i class="fa-solid fa-user text-sm" aria-hidden="true"></i>
+              </div>
+              <h2 class="text-xl font-semibold text-foreground">自我评价</h2>
+            </div>
+            <p class="leading-relaxed text-muted-foreground">
+              具备较强的数据分析与市场洞察能力，能够通过博弈论模型分析市场竞争机制。善于团队协作与跨部门沟通，拥有扎实的品牌运营与项目管理经验，对电商平台数据赋能策略有深入研究。
+            </p>
+          </article>
+
+          <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm"
+                   style="--reveal-delay: 0.15s">
+            <div class="mb-5 flex items-center gap-3">
+              <div class="card-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <i class="fa-solid fa-circle-info text-sm" aria-hidden="true"></i>
+              </div>
+              <h2 class="text-xl font-semibold text-foreground">基本信息</h2>
+            </div>
+            <ul class="space-y-3 text-muted-foreground">
+              <li class="flex">
+                <span class="w-16 shrink-0 font-medium text-foreground">年龄</span>
+                <span>20 岁</span>
+              </li>
+              <li class="flex">
+                <span class="w-16 shrink-0 font-medium text-foreground">性别</span>
+                <span>男</span>
+              </li>
+              <li class="flex">
+                <span class="w-16 shrink-0 font-medium text-foreground">学历</span>
+                <span>本科</span>
+              </li>
+              <li class="flex">
+                <span class="w-16 shrink-0 font-medium text-foreground">院校</span>
+                <span>西南石油大学</span>
+              </li>
+              <li class="flex">
+                <span class="w-16 shrink-0 font-medium text-foreground">专业</span>
+                <span>电子商务</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm"
+                   style="--reveal-delay: 0.25s">
+            <div class="mb-5 flex items-center gap-3">
+              <div class="card-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <i class="fa-solid fa-star text-sm" aria-hidden="true"></i>
+              </div>
+              <h2 class="text-xl font-semibold text-foreground">个人优势</h2>
+            </div>
+            <ul class="space-y-3 text-muted-foreground">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check mt-1 text-xs text-success" aria-hidden="true"></i>
+                <span>数据建模与博弈论分析能力</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check mt-1 text-xs text-success" aria-hidden="true"></i>
+                <span>市场分析与品牌运营经验</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check mt-1 text-xs text-success" aria-hidden="true"></i>
+                <span>跨部门协调与项目管理能力</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check mt-1 text-xs text-success" aria-hidden="true"></i>
+                <span>社群运营与用户增长策略</span>
+              </li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         数据速览（数字滚动计数）
+         ============================================================ -->
+    <section class="pb-20 md:pb-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="reveal grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+          <div class="rounded-2xl border border-border bg-secondary/50 px-5 py-7 text-center">
+            <div class="text-4xl font-semibold tracking-tight text-primary tabular md:text-5xl">
+              <span data-count="3" data-suffix="">0</span>
+            </div>
+            <p class="mt-2 text-sm text-muted-foreground">段工作经历</p>
+          </div>
+          <div class="rounded-2xl border border-border bg-secondary/50 px-5 py-7 text-center">
+            <div class="text-4xl font-semibold tracking-tight text-primary tabular md:text-5xl">
+              <span data-count="3" data-suffix="">0</span>
+            </div>
+            <p class="mt-2 text-sm text-muted-foreground">个完整项目</p>
+          </div>
+          <div class="rounded-2xl border border-border bg-secondary/50 px-5 py-7 text-center">
+            <div class="text-4xl font-semibold tracking-tight text-primary tabular md:text-5xl">
+              <span data-count="13" data-suffix="">0</span>
+            </div>
+            <p class="mt-2 text-sm text-muted-foreground">场策划活动</p>
+          </div>
+          <div class="rounded-2xl border border-border bg-secondary/50 px-5 py-7 text-center">
+            <div class="text-4xl font-semibold tracking-tight text-primary tabular md:text-5xl">
+              <span data-count="168" data-suffix="+">0</span>
+            </div>
+            <p class="mt-2 text-sm text-muted-foreground">平均活动人数</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         教育经历
+         ============================================================ -->
+    <section class="pb-20 md:pb-28">
+      <div class="mx-auto max-w-6xl px-6">
+        <article class="reveal rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8">
+          <div class="mb-6 flex items-center gap-3">
+            <i class="fa-solid fa-graduation-cap text-xl text-primary" aria-hidden="true"></i>
+            <h2 class="text-2xl font-semibold text-foreground">教育经历</h2>
+          </div>
+
+          <div class="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h3 class="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+                西南石油大学
+              </h3>
+              <p class="mt-2 text-lg text-muted-foreground">电子商务专业 · 本科</p>
+            </div>
+            <div class="rounded-lg bg-secondary px-4 py-2 text-sm font-medium text-muted-foreground tabular">
+              2023.09 ~ 2027.08
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       页脚
+       ============================================================ -->
+  <footer data-dom-id="site-footer" class="border-t border-border bg-card">
+    <div class="mx-auto max-w-6xl px-6 py-8">
+      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <p class="text-sm text-muted-foreground">&copy; 2026 谢民辉. 保留所有权利.</p>
+        <div class="flex items-center gap-4">
+          <a href="index.html" data-dom-id="footer-index" aria-label="首页"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-house text-sm" aria-hidden="true"></i>
+          </a>
+          <a href="project.html" data-dom-id="footer-project" aria-label="项目详情"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-folder-open text-sm" aria-hidden="true"></i>
+          </a>
+          <a href="experience.html" data-dom-id="footer-experience" aria-label="工作经历"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-briefcase text-sm" aria-hidden="true"></i>
+          </a>
+          <a href="contact.html" data-dom-id="footer-contact" aria-label="联系方式"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-envelope text-sm" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <p class="mt-4 text-center text-xs text-muted-foreground">
+        本网站部署在 GitHub Pages，部分网络可能需要 VPN 访问。
+      </p>
     </div>
-    
-	<!-- 页脚 -->
-    <footer class="border-t">
-        <div class="max-w-4xl mx-auto px-4 py-4">
-             <div class="flex flex-col md:flex-row justify-between items-center">
-                 <p class="text-sm mb-2 md:mb-0">
-                     &copy; 2026 谢民辉.保留所有权利.
-                 </p>
-                 <div class="flex items-center space-x-4">
-                     <a href="index.html" class="transition-colors">
-                         <i class="fas fa-home"></i>
-                     </a>
-                     <a href="project.html" class="transition-colors">
-                         <i class="fas fa-project-diagram"></i>
-                     </a>
-                     <a href="experience.html" class="transition-colors">
-                         <i class="fas fa-briefcase"></i>
-                     </a>
-                     <a href="contact.html" class="transition-colors">
-                         <i class="fas fa-envelope"></i>
-                     </a>
-                 </div>
-             </div>
-             <p class="text-xs mt-2 text-center">
-                 本网站部署在GitHub Pages,有时您可能需要挂载VPN访问
-             </p>
-         </div>
-    </footer>
-	
-    <!-- 脚本 -->
-    <script>
-        // 深色模式切换逻辑
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
-        
-        // 检查系统偏好
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        
-        // 初始化主题
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const isDark = savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches);
-            
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-                document.body.classList.add('dark');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.body.classList.remove('dark');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------- 主题：默认浅色，深色为可选（localStorage 持久化） ---------- */
+      var root = document.documentElement;
+      var toggle = document.getElementById('themeToggle');
+      var moon = toggle.querySelector('[data-icon="moon"]');
+      var sun = toggle.querySelector('[data-icon="sun"]');
+
+      function syncIcon() {
+        var isDark = root.classList.contains('dark');
+        moon.classList.toggle('hidden', isDark);
+        sun.classList.toggle('hidden', !isDark);
+        toggle.setAttribute('aria-label', isDark ? '切换到浅色模式' : '切换到深色模式');
+      }
+
+      function applyStoredTheme() {
+        var saved = null;
+        try { saved = localStorage.getItem('theme'); } catch (e) { /* 隐私模式等 */ }
+        if (saved === 'dark') {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
         }
-        
-        // 切换主题
-        themeToggle.addEventListener('click', () => {
-            const isDark = document.body.classList.toggle('dark');
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            // 更新图标
-            if (isDark) {
-                themeIcon.className = 'fas fa-sun';
-            } else {
-                themeIcon.className = 'fas fa-moon';
+        syncIcon();
+      }
+
+      applyStoredTheme();
+
+      toggle.addEventListener('click', function () {
+        root.classList.toggle('dark');
+        var isDark = root.classList.contains('dark');
+        try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { /* 忽略 */ }
+        syncIcon();
+      });
+
+      /* ---------- 滚动进场（blur 消散 + 分层延迟） ---------- */
+      var reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
             }
-            
-            // 添加点击反馈
-            themeToggle.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                themeToggle.style.transform = '';
-            }, 200);
-        });
-        
-        // 交互反馈 - 悬停效果
-        document.querySelectorAll('.interactive').forEach(element => {
-            element.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-4px)';
-            });
-            
-            element.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-            });
-        });
-        
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            
-            // 添加加载动画
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-    </script>
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        reveals.forEach(function (el) { observer.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add('is-visible'); });
+      }
+
+      /* ---------- 数字滚动计数（进入视口时从 0 递增到目标值） ---------- */
+      var counters = document.querySelectorAll('[data-count]');
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function setCount(el) {
+        el.textContent = (parseInt(el.getAttribute('data-count'), 10) || 0) + (el.getAttribute('data-suffix') || '');
+      }
+
+      function runCount(el) {
+        var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        var suffix = el.getAttribute('data-suffix') || '';
+        var duration = 1100;
+        var start = null;
+        function step(ts) {
+          if (start === null) start = ts;
+          var p = Math.min((ts - start) / duration, 1);
+          // easeOutExpo
+          var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+          el.textContent = Math.round(eased * target) + suffix;
+          if (p < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+        window.requestAnimationFrame(step);
+      }
+
+      if (reduceMotion) {
+        counters.forEach(setCount);
+      } else if ('IntersectionObserver' in window && counters.length) {
+        var countObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              runCount(entry.target);
+              countObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.4 });
+        counters.forEach(function (el) { countObserver.observe(el); });
+      } else {
+        counters.forEach(runCount);
+      }
+
+      /* ---------- 导航滚动变形（下滚后胶囊收窄 + 阴影加重） ---------- */
+      var ticking = false;
+      function onScroll() {
+        document.body.classList.toggle('is-scrolled', window.pageYOffset > 12);
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      }, { passive: true });
+      onScroll();
+    })();
+  </script>
+
 </body>
 </html>
