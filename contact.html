@@ -1,623 +1,686 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>联系方式 - 谢民辉</title>
-    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/fontawesome-free-7.1.0-web/js/all.min.js"></script>
-    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/3.4.17.js"></script>
-    <style>
-        /* 自定义CSS变量实现深色模式 */
-        :root {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --bg-surface: #f1f5f9;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --border-color: #e2e8f0;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --hero-text: #1e293b; /* 用于Hero区域的文本颜色 */
-            --contact-title: #1e293b; /* 用于"联系方式"标题的颜色 */
-            --info-title: #1e293b; /* 用于"联系说明"标题的颜色 */
-            --footer-bg: #ffffff; /* 页脚背景色 */
-            --footer-text: #64748b; /* 页脚文本色 */
-            --footer-link: #64748b; /* 页脚链接色 */
-            --footer-link-hover: #3b82f6; /* 页脚链接悬停色 */
-            --footer-border: #e2e8f0; /* 页脚边框色 */
-            color-scheme: light dark;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系方式 - 谢民辉</title>
+  <meta name="description" content="谢民辉的联系方式 —— 邮箱 · 电话 · 微信 · WhatsApp">
 
-        /* 手动深色模式类 (由 JS 控制) */
-        body.dark {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-surface: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --border-color: #475569;
-            --accent-color: #60a5fa;
-            --accent-hover: #93c5fd;
-            --glass-bg: rgba(30, 41, 59, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.05);
-            --hero-text: #f1f5f9; /* 深色模式下Hero区域文本为白色 */
-            --contact-title: #f1f5f9; /* 深色模式下"联系方式"标题为白色 */
-            --info-title: #f1f5f9; /* 深色模式下"联系说明"标题为白色 */
-            --footer-bg: #1e293b; /* 深色模式下页脚背景色 */
-            --footer-text: #cbd5e1; /* 深色模式下页脚文本色 */
-            --footer-link: #94a3b8; /* 深色模式下页脚链接色 */
-            --footer-link-hover: #60a5fa; /* 深色模式下页脚链接悬停色 */
-            --footer-border: #334155; /* 深色模式下页脚边框色 */
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: 'var(--c-background)',
+            foreground: 'var(--c-foreground)',
+            card: 'var(--c-card)',
+            primary: 'var(--c-primary)',
+            'primary-foreground': 'var(--c-primary-foreground)',
+            secondary: 'var(--c-secondary)',
+            accent: 'var(--c-accent)',
+            muted: 'var(--c-muted)',
+            'muted-foreground': 'var(--c-muted-foreground)',
+            border: 'var(--c-border)',
+            success: 'var(--c-success)'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro SC"', '"PingFang SC"', '"Segoe UI"', '"Microsoft YaHei"', '"Helvetica Neue"', 'sans-serif'],
+            mono: ['"SF Mono"', '"JetBrains Mono"', 'ui-monospace', 'Consolas', 'monospace']
+          },
+          boxShadow: {
+            't-2xs': 'var(--s-2xs)',
+            't-xs': 'var(--s-xs)',
+            't-sm': 'var(--s-sm)',
+            't-md': 'var(--s-md)',
+            't-lg': 'var(--s-lg)'
+          }
         }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+  <style>
+    /* ============================================================
+       设计令牌 · 双层架构
+       primitive（原始色板）→ semantic（语义角色）
+       与 index.html 完全一致
+       ============================================================ */
+    :root {
+      /* --- Primitive: brand 蓝 --- */
+      --brand-50:  #e8f2ff;
+      --brand-100: #cfe5ff;
+      --brand-200: #9fcbff;
+      --brand-300: #66abff;
+      --brand-400: #2e8dff;
+      --brand-500: #007aff;   /* @primary  System Blue */
+      --brand-600: #0064d6;
+      --brand-700: #004fad;
+      --brand-800: #003b82;
+      --brand-900: #00275a;
 
-        /* 高斯模糊顶部导航栏 (从 index/project 移植) */
-        .glass-nav {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
+      /* --- Primitive: background 灰阶 --- */
+      --bg-50:  #ffffff;
+      --bg-100: #f7f7fa;
+      --bg-200: #f2f2f7;
+      --bg-300: #e5e5ea;
+      --bg-400: #d1d1d6;
+      --bg-500: #aeaeb2;
+      --bg-600: #8e8e93;
+      --bg-700: #3a3a3c;
+      --bg-800: #1c1c1e;
+      --bg-900: #000000;
 
-        @supports not (backdrop-filter: blur(12px)) {
-            .glass-nav {
-                background: var(--bg-secondary);
-            }
-        }
+      /* --- Semantic: 浅色模式（默认） --- */
+      --c-background: #ffffff;
+      --c-foreground: #1d1d1f;
+      --c-card: #ffffff;
+      --c-primary: #007aff;
+      --c-primary-foreground: #ffffff;
+      --c-secondary: #f2f2f7;
+      --c-accent: #f7f7fa;
+      --c-muted: #f2f2f7;
+      --c-muted-foreground: #8e8e93;
+      --c-border: #e5e5ea;
+      --c-success: #34c759;
 
-        /* Hero区域视觉设计 */
-        .contact-hero {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.05) 100%);
-            padding: 3rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-            border-radius: 0 0 1.5rem 1.5rem;
-            margin-top: 5rem; /* 为顶部导航留出空间 */
-        }
+      /* --- 玻璃材质参数（浅色） --- */
+      --glass-tint: rgba(255, 255, 255, 0.62);
+      --glass-border: rgba(255, 255, 255, 0.75);
+      --glass-shadow: 0 6px 24px -8px rgba(0, 0, 0, 0.12), 0 2px 6px -2px rgba(0, 0, 0, 0.06);
 
-        /* Hero区域标题颜色 */
-        .contact-hero h1,
-        .contact-hero p {
-            color: var(--hero-text);
-        }
+      --s-2xs: 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+      --s-xs:  0 1px 2px 0 rgba(0, 0, 0, 0.04);
+      --s-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.05);
+      --s-md:  0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --s-lg:  0 8px 24px -8px rgba(0, 0, 0, 0.08), 0 4px 8px -4px rgba(0, 0, 0, 0.05);
+      --s-hover: 0 16px 36px -14px rgba(0, 0, 0, 0.16), 0 4px 12px -4px rgba(0, 0, 0, 0.07);
 
-        /* 联系人卡片设计 */
-        .contact-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+      /* --- 缓动曲线 --- */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring:   cubic-bezier(0.2, 1.42, 0.34, 1);
 
-        .contact-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
+      /* --- 氛围光晕（浅色：极淡系统蓝，只做氛围不抢主体） --- */
+      --glow-1: radial-gradient(closest-side, rgba(0, 122, 255, 0.10), rgba(0, 122, 255, 0) 100%);
+      --glow-2: radial-gradient(closest-side, rgba(46, 141, 255, 0.08), rgba(46, 141, 255, 0) 100%);
+      --glow-3: radial-gradient(closest-side, rgba(120, 180, 255, 0.09), rgba(120, 180, 255, 0) 100%);
 
-        .contact-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
+      color-scheme: light;
+    }
 
-        .contact-icon.email {
-            background: linear-gradient(135deg, #3b82f6, #60a5fa);
-            color: white;
-        }
+    html.dark {
+      --c-background: #000000;
+      --c-foreground: #f5f5f7;
+      --c-card: #1c1c1e;
+      --c-primary: #2e8dff;
+      --c-primary-foreground: #000000;
+      --c-secondary: #1c1c1e;
+      --c-accent: #2c2c2e;
+      --c-muted: #1c1c1e;
+      --c-muted-foreground: #8e8e93;
+      --c-border: #3a3a3c;
+      --c-success: #30d158;
 
-        .contact-icon.phone {
-            background: linear-gradient(135deg, #10b981, #34d399);
-            color: white;
-        }
+      --glass-tint: rgba(30, 30, 32, 0.58);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.65), 0 2px 6px -2px rgba(0, 0, 0, 0.5);
 
-        .contact-icon.wechat {
-            background: linear-gradient(135deg, #22c55e, #4ade80);
-            color: white;
-        }
+      --s-2xs: 0 1px 2px -1px rgba(0, 0, 0, 0.30);
+      --s-xs:  0 1px 2px 0 rgba(0, 0, 0, 0.30);
+      --s-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.36), 0 1px 3px -1px rgba(0, 0, 0, 0.36);
+      --s-md:  0 4px 8px -2px rgba(0, 0, 0, 0.44), 0 2px 4px -2px rgba(0, 0, 0, 0.36);
+      --s-lg:  0 8px 24px -8px rgba(0, 0, 0, 0.50), 0 4px 8px -4px rgba(0, 0, 0, 0.40);
+      --s-hover: 0 18px 40px -16px rgba(0, 0, 0, 0.62), 0 4px 14px -4px rgba(0, 0, 0, 0.45);
 
-        .contact-icon.whatsapp {
-            background: linear-gradient(135deg, #25d366, #2fe664);
-            color: white;
-        }
+      /* 深色模式下光晕更明显一点，仍保持克制 */
+      --glow-1: radial-gradient(closest-side, rgba(46, 141, 255, 0.22), rgba(46, 141, 255, 0) 100%);
+      --glow-2: radial-gradient(closest-side, rgba(90, 69, 255, 0.16), rgba(90, 69, 255, 0) 100%);
+      --glow-3: radial-gradient(closest-side, rgba(120, 180, 255, 0.14), rgba(120, 180, 255, 0) 100%);
 
-        .contact-info h3 {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
+      color-scheme: dark;
+    }
 
-        .contact-value {
-            font-size: 1.125rem;
-            font-weight: 500;
-            color: var(--accent-color);
-            word-break: break-all;
-        }
+    html { scroll-behavior: smooth; }
 
-        .contact-placeholder {
-            color: var(--text-secondary);
-            font-style: italic;
-            opacity: 0.7;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro SC", "PingFang SC",
+                   "Segoe UI", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      background-color: var(--c-background);
+      color: var(--c-foreground);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-        /* 复制按钮样式 */
-        .copy-btn {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.375rem 0.75rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
-        }
+    .tabular { font-variant-numeric: tabular-nums; }
 
-        .copy-btn:hover {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
+    /* Liquid Glass（Web 无官方 Apple API，SVG 位移滤镜 + backdrop-filter 模拟） */
+    .liquid-glass {
+      position: relative;
+      background-color: var(--glass-tint);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      isolation: isolate;
+    }
+    .liquid-glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        160deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.16) 28%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.28) 100%
+      );
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.85;
+    }
+    html.dark .liquid-glass::before { opacity: 0.5; }
 
-        .copy-btn.copied {
-            background-color: #10b981;
-            color: white;
-            border-color: #10b981;
-        }
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+      .liquid-glass--refract::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        -webkit-backdrop-filter: url(#lg-displace) blur(2px);
+        backdrop-filter: url(#lg-displace) blur(2px);
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.9;
+      }
+    }
 
-        .copy-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .liquid-glass { background-color: var(--c-card); opacity: 0.97; }
+    }
 
-        /* 页脚样式 - 确保页脚固定在底部 */
-        footer {
-            margin-top: auto;
-            padding-top: 2rem;
-            border-top: 1px solid var(--footer-border);
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            font-size: 0.875rem;
-            width: 100%;
-        }
+    .pill-glass { border-radius: 999px; }
 
-        footer a {
-            color: var(--footer-link);
-            transition: color 0.3s ease;
-        }
+    /* ============================================================
+       卡片悬停：微抬升 + 阴影扩散 + 边框高亮 + 弹性回弹
+       ============================================================ */
+    .card-lift {
+      transition: transform 0.42s var(--ease-spring),
+                  box-shadow 0.32s var(--ease-out-expo),
+                  border-color 0.32s ease;
+      will-change: transform;
+    }
+    .card-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--s-hover);
+      border-color: color-mix(in srgb, var(--c-primary) 28%, var(--c-border));
+    }
+    .card-lift:hover .card-icon {
+      transform: scale(1.08) rotate(-3deg);
+      background-color: color-mix(in srgb, var(--c-primary) 18%, transparent);
+    }
+    .card-icon {
+      transition: transform 0.42s var(--ease-spring),
+                  background-color 0.3s ease;
+    }
 
-        footer a:hover {
-            color: var(--footer-link-hover);
-        }
+    /* ============================================================
+       滚动进场 v2：blur 消散 + 上移 + 分层延迟
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(10px);
+      transition: opacity 0.8s var(--ease-out-expo),
+                  transform 0.8s var(--ease-out-expo),
+                  filter 0.8s var(--ease-out-expo);
+      transition-delay: var(--reveal-delay, 0s);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
 
-        /* --- 新增：右下角固定深色模式按钮样式 --- */
-        .theme-toggle-fixed {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--bg-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1002;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
+    /* ============================================================
+       页面氛围光晕：多层柔光缓慢呼吸漂移
+       ============================================================ */
+    .glow-field {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100%;
+      pointer-events: none;
+      z-index: -10;
+      overflow: hidden;
+    }
+    .glow-orb {
+      position: absolute;
+      border-radius: 999px;
+      will-change: transform, opacity;
+    }
+    .glow-orb--1 {
+      top: -6%; right: 6%;
+      width: 34rem; height: 34rem;
+      background: var(--glow-1);
+      animation: glow-drift-1 18s ease-in-out infinite;
+    }
+    .glow-orb--2 {
+      bottom: 2%; left: 2%;
+      width: 30rem; height: 30rem;
+      background: var(--glow-2);
+      animation: glow-drift-2 22s ease-in-out infinite;
+    }
+    .glow-orb--3 {
+      top: 34%; left: 42%;
+      width: 22rem; height: 22rem;
+      background: var(--glow-3);
+      animation: glow-drift-3 26s ease-in-out infinite;
+    }
+    @keyframes glow-drift-1 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.9; }
+      50%      { transform: translate3d(-3%, 4%, 0) scale(1.12); opacity: 1; }
+    }
+    @keyframes glow-drift-2 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+      50%      { transform: translate3d(4%, -3%, 0) scale(1.1); opacity: 1; }
+    }
+    @keyframes glow-drift-3 {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.7; }
+      50%      { transform: translate3d(-4%, -4%, 0) scale(1.16); opacity: 0.95; }
+    }
 
-        .theme-toggle-fixed:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
+    /* 主按钮：悬停微升 + 弹性，按压回弹 */
+    .btn-spring {
+      transition: transform 0.34s var(--ease-spring),
+                  box-shadow 0.28s var(--ease-out-expo),
+                  border-color 0.24s ease,
+                  background-color 0.24s ease,
+                  color 0.24s ease,
+                  filter 0.24s ease;
+    }
+    .btn-spring:hover { transform: translateY(-2px); }
+    .btn-spring:active { transform: translateY(0) scale(0.97); }
 
-        .theme-toggle-fixed i {
-            font-size: 22px;
-            color: var(--accent-color);
-            transition: transform 0.5s ease;
-        }
+    /* 导航内主题按钮 */
+    #themeToggle {
+      transition: transform 0.34s var(--ease-spring),
+                  background-color 0.3s ease, color 0.3s ease;
+    }
+    #themeToggle:hover { transform: scale(1.08); }
+    #themeToggle:active { transform: scale(0.94); }
 
-        body.dark .theme-toggle-fixed {
-            background-color: var(--bg-secondary);
-            border-color: var(--border-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        }
+    /* 导航滚动变形：下滚后胶囊收窄 + 阴影加重 */
+    #navShell {
+      transition: transform 0.42s var(--ease-out-expo),
+                  box-shadow 0.42s var(--ease-out-expo),
+                  background-color 0.42s ease,
+                  border-color 0.42s ease;
+    }
+    body.is-scrolled #navShell {
+      transform: scale(0.985);
+      box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.18), 0 3px 10px -3px rgba(0, 0, 0, 0.08);
+    }
+    html.dark body.is-scrolled #navShell {
+      box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.72), 0 3px 10px -3px rgba(0, 0, 0, 0.5);
+    }
 
-        body.dark .theme-toggle-fixed i {
-            color: var(--accent-hover);
-            transform: rotate(180deg);
-        }
+    /* 复制按钮 */
+    .copy-btn {
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s var(--ease-spring);
+    }
+    .copy-btn:hover { transform: translateY(-1px); }
+    .copy-btn:active { transform: scale(0.96); }
+    .copy-btn.copied {
+      background-color: var(--c-success);
+      border-color: var(--c-success);
+      color: #ffffff;
+    }
 
-        /* 移动端适配 */
-        @media (max-width: 640px) {
-            .theme-toggle-fixed {
-                width: 45px;
-                height: 45px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .theme-toggle-fixed i {
-                font-size: 18px;
-            }
-            
-            /* 移动端导航文字隐藏 */
-            .glass-nav span:not(.font-semibold) {
-                display: none;
-            }
-            .glass-nav .space-x-6 {
-                gap: 1rem;
-            }
-        }
-    </style>
-<script>
-!(function(j,a,g){j.__itrace_conf = {bid: 'kt40h0wl-koyh4af8',rel: '', uid: 'e99201a0-b0b5-4b5e-8daa-237626955000' ,  spa: true, plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
-</script>
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--c-primary);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+      .card-lift, .card-icon, #themeToggle, .btn-spring, #navShell, .copy-btn { transition: none; }
+      .glow-orb { animation: none; }
+    }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg-400);
+      border-radius: 999px;
+      border: 3px solid var(--c-background);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--bg-500); }
+  </style>
 </head>
-<body>
-    <!-- 顶部高斯模糊导航栏 (与 index/project/experience 一致) -->
-    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 mx-auto max-w-7xl mt-4 rounded-2xl px-6 py-3 flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-            <i class="fas fa-envelope text-xl text-blue-500 dark:text-blue-400"></i>
-            <span class="text-lg font-semibold">联系方式</span>
-        </div>
-        <div class="flex space-x-6">
-            <a href="index.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
-                <i class="fas fa-home"></i>
-                <span>首页</span>
-            </a>
-            <a href="project.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
-                <i class="fas fa-project-diagram"></i>
-                <span>项目详情</span>
-            </a>
-            <a href="experience.html" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center space-x-1">
-                <i class="fas fa-briefcase"></i>
-                <span>工作经历</span>
-            </a>
-            <a href="contact.html" class="text-blue-500 dark:text-blue-400 font-semibold border-b-2 border-blue-500 pb-1 flex items-center space-x-1">
-                <i class="fas fa-address-book"></i>
-                <span>联系方式</span>
-            </a>
-        </div>
-        <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-sm font-bold">X</div>
-            <span class="hidden md:inline text-sm font-medium">个人空间</span>
-        </div>
-    </nav>
 
-    <!-- 主内容区 -->
-    <main class="max-w-4xl mx-auto px-4 flex-grow">
-        <!-- Hero区域 -->
-        <section class="contact-hero rounded-b-2xl mb-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">保持联系</h1>
-            <p class="text-lg md:text-xl max-w-2xl mx-auto">
-                欢迎通过以下方式与我取得联系
-            </p>
-        </section>
+<body class="min-h-screen flex flex-col font-sans antialiased">
 
-        <!-- 联系方式卡片区域 -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-6">联系方式</h2>
-            
-            <!-- 电子邮件卡片 -->
-            <div class="contact-card">
-                <div class="flex items-start">
-                    <div class="contact-icon email">
-                        <i class="fas fa-envelope text-xl"></i>
-                    </div>
-                    <div class="contact-info flex-grow">
-                        <h3>电子邮件</h3>
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                            <div class="contact-value">ashxie.cnwork@outlook.com</div>
-                            <button class="copy-btn self-start md:self-center" data-text="ashxie.cnwork@outlook.com">
-                                <i class="far fa-copy"></i>
-                                <span>复制</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                            通常会在24小时内回复工作邮件
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="lg-displace" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.016" numOctaves="2"
+                      seed="7" result="noise"/>
+        <feGaussianBlur in="noise" stdDeviation="2" result="softNoise"/>
+        <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="10"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
 
-            <!-- 电话卡片 -->
-            <div class="contact-card">
-                <div class="flex items-start">
-                    <div class="contact-icon phone">
-                        <i class="fas fa-phone-alt text-xl"></i>
-                    </div>
-                    <div class="contact-info flex-grow">
-                        <h3>电话</h3>
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                            <div class="contact-value">+8618613230053</div>
-                            <button class="copy-btn self-start md:self-center" data-text="18613230053">
-                                <i class="far fa-copy"></i>
-                                <span>复制</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                            工作日上午10:00 - 下午7:30可接听电话
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <nav data-dom-id="nav-bar"
+       class="fixed top-0 left-0 right-0 z-50 mx-auto mt-4 max-w-6xl px-4">
+    <div id="navShell" class="liquid-glass liquid-glass--refract pill-glass flex items-center justify-between gap-3 px-4 py-2.5 md:px-6 md:py-3">
 
-            <!-- 微信卡片 -->
-            <div class="contact-card">
-                <div class="flex items-start">
-                    <div class="contact-icon wechat">
-                        <i class="fab fa-weixin text-xl"></i>
-                    </div>
-                    <div class="contact-info flex-grow">
-                        <h3>微信</h3>
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                            <div class="contact-value">cnwork_ash</div>
-                           <button class="copy-btn self-start md:self-center" data-text="cnwork_ash">
-                                <i class="far fa-copy"></i>
-                                <span>复制</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                            可通过搜索微信号添加好友
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <a href="index.html" data-dom-id="nav-logo"
+         class="relative z-[2] flex shrink-0 items-center gap-2 font-semibold text-foreground">
+        <i class="fa-solid fa-code text-primary" aria-hidden="true"></i>
+        <span class="hidden sm:inline">谢民辉</span>
+      </a>
 
-            <!-- WhatsApp卡片 -->
-            <div class="contact-card">
-                <div class="flex items-start">
-                    <div class="contact-icon whatsapp">
-                        <i class="fab fa-whatsapp text-xl"></i>
-                    </div>
-                    <div class="contact-info flex-grow">
-                        <h3>WhatsApp</h3>
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                            <div class="contact-value">46193277</div>
-                            <button class="copy-btn self-start md:self-center" data-text="46193277">
-                                <i class="far fa-copy"></i>
-                                <span>复制</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                            若您通过OfferToday了解到我，可使用WhatsApp与我联系
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <div class="relative z-[2] flex items-center gap-0.5 md:gap-1.5">
+        <a href="index.html" data-dom-id="nav-index"
+           class="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+          <i class="fa-solid fa-house text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">首页</span>
+        </a>
+        <a href="project.html" data-dom-id="nav-project"
+           class="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+          <i class="fa-solid fa-folder-open text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">项目详情</span>
+        </a>
+        <a href="experience.html" data-dom-id="nav-experience"
+           class="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">
+          <i class="fa-solid fa-briefcase text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">工作经历</span>
+        </a>
+        <a href="contact.html" data-dom-id="nav-contact" aria-current="page"
+           class="flex items-center gap-1.5 rounded-full bg-accent px-3 py-2 text-sm font-medium text-foreground transition-colors">
+          <i class="fa-solid fa-envelope text-[13px]" aria-hidden="true"></i>
+          <span class="hidden md:inline">联系方式</span>
+        </a>
+      </div>
 
-        <!-- 联系提示 -->
-        <section class="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 mb-8" style="background-color: var(--bg-surface);">
-            <div class="flex items-start">
-                <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
-                <div>
-                    <h3 class="text-lg font-semibold mb-2" style="color: var(--info-title);">联系说明</h3>
-                    <p class="text-slate-600 dark:text-slate-300 mb-2" style="color: var(--text-secondary);">
-                         我通常会在 <strong class="text-blue-600 dark:text-blue-400" style="color: var(--accent-color);">1个工作日内</strong> 回复所有的工作联系。 
-                    </p>
-                    <p class="text-slate-600 dark:text-slate-300" style="color: var(--text-secondary);">
-                         若有重要事宜，请直接拨打电话。非常期待能为您提供力所能及的帮助。 
-                    </p>
-                </div>
-            </div>
-        </section>
-    </main>
+      <button id="themeToggle" type="button" aria-label="切换深色模式" title="切换深色模式"
+              class="relative z-[2] flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/70 text-muted-foreground">
+        <i class="fa-solid fa-moon text-sm" data-icon="moon" aria-hidden="true"></i>
+        <i class="fa-solid fa-sun hidden text-sm" data-icon="sun" aria-hidden="true"></i>
+      </button>
 
-    <!-- 页脚 -->
-    <footer class="border-t">
-        <div class="max-w-4xl mx-auto px-4 py-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="text-sm mb-2 md:mb-0">
-                    &copy; 2026 谢民辉.保留所有权利.
-                </p>
-                <div class="flex items-center space-x-4">
-                    <a href="index.html" class="transition-colors">
-                        <i class="fas fa-home"></i>
-                    </a>
-                    <a href="project.html" class="transition-colors">
-                        <i class="fas fa-project-diagram"></i>
-                    </a>
-                    <a href="experience.html" class="transition-colors">
-                        <i class="fas fa-briefcase"></i>
-                    </a>
-                    <a href="contact.html" class="transition-colors">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                </div>
-            </div>
-            <p class="text-xs mt-2 text-center">
-                本网站部署在GitHub Pages,有时您可能需要挂载VPN访问
-            </p>
-        </div>
-    </footer>
+    </div>
+  </nav>
 
-    <!-- 右下角深色模式按钮 -->
-    <div class="theme-toggle-fixed" id="themeToggle" title="切换深色模式">
-        <i class="fas fa-moon"></i>
+  <main class="relative flex-1 pt-32 pb-20 md:pt-40 md:pb-28">
+
+    <!-- 页面氛围光晕：多层柔光缓慢呼吸漂移 -->
+    <div class="glow-field" aria-hidden="true">
+      <div class="glow-orb glow-orb--1"></div>
+      <div class="glow-orb glow-orb--2"></div>
+      <div class="glow-orb glow-orb--3"></div>
     </div>
 
-    <script>
-        // --- 深色模式逻辑 (与 project/experience 一致) ---
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
-        
-        // 检查本地存储或系统偏好
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                enableDarkMode();
-            } else {
-                disableDarkMode();
+    <!-- Hero -->
+    <section class="relative z-[2] mx-auto max-w-6xl px-6">
+      <div class="reveal px-6 py-10 text-center md:py-14" style="--reveal-delay: 0.05s">
+        <h1 class="text-4xl font-semibold tracking-tight text-foreground md:text-5xl">保持联系</h1>
+        <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">欢迎通过以下方式与我取得联系</p>
+        <div class="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-foreground shadow-t-xs">
+          <i class="fa-regular fa-paper-plane text-primary" aria-hidden="true"></i>
+          <span class="text-base font-medium">通常 1 个工作日内回复</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="relative z-[2] mx-auto mt-16 max-w-6xl px-6 md:mt-20">
+      <h2 class="reveal mb-6 text-2xl font-semibold tracking-tight text-foreground" style="--reveal-delay: 0.05s">联系方式</h2>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+        <!-- 电子邮件 -->
+        <div class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm" style="--reveal-delay: 0.05s">
+          <div class="flex items-start gap-4">
+            <div class="card-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+              <i class="fa-regular fa-envelope text-lg" aria-hidden="true"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="font-semibold text-foreground">电子邮件</h3>
+              <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div class="truncate font-medium text-primary" title="ashxie.cnwork@outlook.com">ashxie.cnwork@outlook.com</div>
+                <button type="button" class="copy-btn inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-border bg-secondary px-3 py-1.5 text-sm text-muted-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground sm:self-center"
+                        data-text="ashxie.cnwork@outlook.com">
+                  <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                  <span>复制</span>
+                </button>
+              </div>
+              <p class="mt-2 text-sm text-muted-foreground">通常会在 24 小时内回复工作邮件</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 电话 -->
+        <div class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm" style="--reveal-delay: 0.12s">
+          <div class="flex items-start gap-4">
+            <div class="card-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+              <i class="fa-solid fa-phone text-lg" aria-hidden="true"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="font-semibold text-foreground">电话</h3>
+              <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div class="truncate font-medium text-primary tabular" title="+8618613230053">+8618613230053</div>
+                <button type="button" class="copy-btn inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-border bg-secondary px-3 py-1.5 text-sm text-muted-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground sm:self-center"
+                        data-text="18613230053">
+                  <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                  <span>复制</span>
+                </button>
+              </div>
+              <p class="mt-2 text-sm text-muted-foreground">工作日上午 10:00 - 下午 7:30 可接听电话</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 微信 -->
+        <div class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm" style="--reveal-delay: 0.19s">
+          <div class="flex items-start gap-4">
+            <div class="card-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+              <i class="fa-brands fa-weixin text-lg" aria-hidden="true"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="font-semibold text-foreground">微信</h3>
+              <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div class="truncate font-medium text-primary" title="cnwork_ash">cnwork_ash</div>
+                <button type="button" class="copy-btn inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-border bg-secondary px-3 py-1.5 text-sm text-muted-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground sm:self-center"
+                        data-text="cnwork_ash">
+                  <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                  <span>复制</span>
+                </button>
+              </div>
+              <p class="mt-2 text-sm text-muted-foreground">可通过搜索微信号添加好友</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm" style="--reveal-delay: 0.26s">
+          <div class="flex items-start gap-4">
+            <div class="card-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+              <i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="font-semibold text-foreground">WhatsApp</h3>
+              <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div class="truncate font-medium text-primary tabular" title="46193277">46193277</div>
+                <button type="button" class="copy-btn inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-border bg-secondary px-3 py-1.5 text-sm text-muted-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground sm:self-center"
+                        data-text="46193277">
+                  <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                  <span>复制</span>
+                </button>
+              </div>
+              <p class="mt-2 text-sm text-muted-foreground">若您通过 OfferToday 了解到我，可使用 WhatsApp 与我联系</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer data-dom-id="site-footer" class="border-t border-border bg-card">
+    <div class="mx-auto max-w-6xl px-6 py-8">
+      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <p class="text-sm text-muted-foreground">&copy; 2026 谢民辉. 保留所有权利.</p>
+        <div class="flex items-center gap-4">
+          <a href="index.html" data-dom-id="footer-index" aria-label="首页"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-house text-sm" aria-hidden="true"></i>
+          </a>
+          <a href="project.html" data-dom-id="footer-project" aria-label="项目详情"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-folder-open text-sm" aria-hidden="true"></i>
+          </a>
+          <a href="experience.html" data-dom-id="footer-experience" aria-label="工作经历"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-briefcase text-sm" aria-hidden="true"></i>
+          </a>
+          <a href="contact.html" data-dom-id="footer-contact" aria-label="联系方式"
+             class="text-muted-foreground transition-colors hover:text-primary">
+            <i class="fa-solid fa-envelope text-sm" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <p class="mt-4 text-center text-xs text-muted-foreground">
+        本网站部署在 GitHub Pages，部分网络可能需要 VPN 访问。
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var root = document.documentElement;
+      var toggle = document.getElementById('themeToggle');
+      var moon = toggle.querySelector('[data-icon="moon"]');
+      var sun = toggle.querySelector('[data-icon="sun"]');
+
+      function syncIcon() {
+        var isDark = root.classList.contains('dark');
+        moon.classList.toggle('hidden', isDark);
+        sun.classList.toggle('hidden', !isDark);
+        toggle.setAttribute('aria-label', isDark ? '切换到浅色模式' : '切换到深色模式');
+      }
+      function applyStoredTheme() {
+        var saved = null;
+        try { saved = localStorage.getItem('theme'); } catch (e) {}
+        if (saved === 'dark') { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+        syncIcon();
+      }
+      applyStoredTheme();
+      toggle.addEventListener('click', function () {
+        root.classList.toggle('dark');
+        var isDark = root.classList.contains('dark');
+        try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+        syncIcon();
+      });
+
+      /* ---------- 滚动进场（blur 消散 + 分层延迟） ---------- */
+      var reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
             }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(function (el) { io.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add('is-visible'); });
+      }
+
+      /* ---------- 导航滚动变形（下滚后胶囊收窄 + 阴影加重） ---------- */
+      var ticking = false;
+      function onScroll() {
+        document.body.classList.toggle('is-scrolled', window.pageYOffset > 12);
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(onScroll);
+          ticking = true;
         }
+      }, { passive: true });
+      onScroll();
 
-        function enableDarkMode() {
-            document.body.classList.add('dark');
-            document.documentElement.classList.add('dark');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-            localStorage.setItem('theme', 'dark');
+      /* ---------- 复制到剪贴板 ---------- */
+      var COPY_HTML = '<i class="fa-regular fa-copy" aria-hidden="true"></i><span>复制</span>';
+      var DONE_HTML = '<i class="fa-solid fa-check" aria-hidden="true"></i><span>已复制</span>';
+
+      function showCopySuccess(button) {
+        button.classList.add('copied');
+        button.innerHTML = DONE_HTML;
+        window.setTimeout(function () {
+          button.classList.remove('copied');
+          button.innerHTML = COPY_HTML;
+        }, 2000);
+      }
+
+      function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.style.top = '-9999px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      async function copyToClipboard(button) {
+        var text = button.getAttribute('data-text');
+        if (!text) return;
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            showCopySuccess(button);
+            return;
+          }
+          throw new Error('clipboard API unavailable');
+        } catch (err) {
+          if (fallbackCopy(text)) {
+            showCopySuccess(button);
+          } else {
+            button.innerHTML = COPY_HTML;
+          }
         }
+      }
 
-        function disableDarkMode() {
-            document.body.classList.remove('dark');
-            document.documentElement.classList.remove('dark');
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-            localStorage.setItem('theme', 'light');
-        }
+      document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.copy-btn');
+        if (btn && !btn.disabled) copyToClipboard(btn);
+      });
+    })();
+  </script>
 
-        // 绑定点击事件
-        themeToggle.addEventListener('click', () => {
-            if (document.body.classList.contains('dark')) {
-                disableDarkMode();
-            } else {
-                enableDarkMode();
-            }
-            
-            // 点击动画
-            themeToggle.style.transform = 'scale(0.9)';
-            setTimeout(() => themeToggle.style.transform = '', 200);
-        });
-
-        // --- 主程序入口 ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. 初始化主题
-            initTheme();
-
-            // 2. 为联系人卡片添加加载动画 (保留原逻辑)
-            const cards = document.querySelectorAll('.contact-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100 + index * 150);
-            });
-
-            // 3. 修复复制功能 - 添加事件委托
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.copy-btn') && !e.target.closest('.copy-btn').disabled) {
-                    const button = e.target.closest('.copy-btn');
-                    copyToClipboard(button);
-                }
-            });
-        });
-
-        // 修复后的复制文本到剪贴板功能
-        async function copyToClipboard(button) {
-            // 获取要复制的文本
-            const textToCopy = button.getAttribute('data-text');
-            
-            if (!textToCopy) {
-                console.error('没有找到要复制的文本');
-                return;
-            }
-
-            // 保存原始按钮状态
-            const originalHTML = button.innerHTML;
-            const originalClasses = button.className;
-
-            try {
-                // 尝试使用现代API
-                await navigator.clipboard.writeText(textToCopy);
-                
-                // 成功反馈
-                showCopySuccess(button);
-            } catch (err) {
-                // 如果现代API失败，回退到传统方法
-                console.warn('现代剪贴板API失败，使用传统方法:', err);
-                
-                // 创建临时文本域
-                const textArea = document.createElement('textarea');
-                textArea.value = textToCopy;
-                
-                // 隐藏文本域
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                textArea.style.top = '-999999px';
-                textArea.style.opacity = '0';
-                textArea.style.pointerEvents = 'none';
-                
-                document.body.appendChild(textArea);
-                
-                // 选择并复制文本
-                textArea.select();
-                const success = document.execCommand('copy');
-                
-                // 清理
-                document.body.removeChild(textArea);
-                
-                if (success) {
-                    // 成功反馈
-                    showCopySuccess(button);
-                } else {
-                    // 失败反馈
-                    console.error('复制失败');
-                    alert('复制失败，请手动复制文本');
-                    
-                    // 恢复按钮状态
-                    button.innerHTML = originalHTML;
-                    button.className = originalClasses;
-                }
-            }
-        }
-
-        // 显示复制成功反馈
-        function showCopySuccess(button) {
-            // 更新按钮样式
-            button.classList.add('copied');
-            button.classList.remove('text-gray-600', 'bg-gray-100', 'hover:bg-blue-500', 'hover:text-white');
-            
-            // 更新按钮内容
-            button.innerHTML = '<i class="fas fa-check"></i><span>已复制</span>';
-            
-            // 2秒后恢复原始状态
-            setTimeout(() => {
-                button.classList.remove('copied');
-                button.innerHTML = '<i class="far fa-copy"></i><span>复制</span>';
-            }, 2000);
-        }
-
-        // 4. 深色模式媒体查询监听 (保留，用于无本地存储时的初始判断)
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!localStorage.getItem('theme')) {
-                if (e.matches) {
-                    enableDarkMode();
-                } else {
-                    disableDarkMode();
-                }
-            }
-        });
-    </script>
 </body>
 </html>
