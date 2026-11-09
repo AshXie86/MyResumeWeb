@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>项目详情 - 谢民辉</title>
-  <meta name="description" content="谢民辉的研究项目展示 —— 电子商务、数据分析与博弈论建模">
+  <meta name="description" content="谢民辉的项目展示 —— 电子商务、数据分析、博弈论建模与 AI 工具开发">
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   <script>
@@ -466,16 +466,99 @@
     </div>
 
     <header class="relative z-[2] mb-12 text-center md:mb-16">
-      <h1 class="reveal mb-4 text-4xl font-semibold tracking-tight text-foreground md:text-5xl" style="--reveal-delay: 0.05s">研究项目展示</h1>
+      <h1 class="reveal mb-4 text-4xl font-semibold tracking-tight text-foreground md:text-5xl" style="--reveal-delay: 0.05s">项目展示</h1>
       <p class="reveal mx-auto max-w-3xl text-lg leading-relaxed text-muted-foreground" style="--reveal-delay: 0.14s">
-        以下展示了我主导或深度参与的研究项目，涵盖电子商务、数据分析与博弈论建模等领域。每个项目卡片包含完整的研究方法、工具与成果简介。
+        以下展示了我主导或深度参与的项目，涵盖电子商务、数据分析、博弈论建模与 AI 工具开发等领域。每个项目卡片包含完整的方法、工具与成果简介。
       </p>
     </header>
 
     <section class="relative z-[2] flex flex-col gap-8">
 
-      <!-- ============ 项目一 ============ -->
+      <!-- ============ 项目一：jd-forge（GitHub 开源） ============ -->
       <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8" style="--reveal-delay: 0.05s">
+        <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 class="mb-2 text-2xl font-semibold text-foreground">jd-forge · 招聘流程自动化 Skill</h2>
+            <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <span class="inline-flex items-center gap-1.5">
+                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                2026.10 ~ 2026.11
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                项目角色：个人独立项目
+              </span>
+            </div>
+          </div>
+          <span class="rounded-full bg-secondary px-3 py-1 text-sm font-medium text-muted-foreground">AI 工具开发</span>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold text-foreground">
+            <i class="fa-regular fa-file-lines text-primary" aria-hidden="true"></i>
+            项目简介
+          </h3>
+          <div class="space-y-3 leading-relaxed text-muted-foreground">
+            <p>面向招聘场景的文档生成工作流：把业务方的口头需求、残缺字段与受限的薪酬信息，转化为可发布、可溯源、可审计的标准 JD。以 Agent Skill 形式实现，方法论本身不依赖特定模型，已在 GitHub 开源。</p>
+            <ul class="list-disc space-y-2 pl-5">
+              <li>负责将招聘场景中的非结构化输入（口头需求、残缺字段、受限的薪酬信息）拆解为 20 项结构化字段，建立 A/B/C/D 四级置信度标注体系，并设定薪酬构成类字段的置信度上限，避免 Agent 以推断替代事实。</li>
+              <li>负责设计 Intake–Gap–Benchmark–Draft–Review 五阶段处理流程，将单一 JD 产出拆解为 8 项可独立审计的产物文件，实现多轮修改下的上下文可恢复与变更可追溯。</li>
+              <li>负责建立批注式溯源规范，并配套开发 Python 校验脚本，将原文一致性由人工核对转为机器验证。</li>
+              <li>负责在真实招聘场景完成端到端验证，沉淀为可复用技能包，已在 GitHub 开源。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold text-foreground">
+            <i class="fa-solid fa-wrench text-primary" aria-hidden="true"></i>
+            主要工具与技能
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1 text-sm text-muted-foreground">
+              <i class="fa-brands fa-python" aria-hidden="true"></i>
+              Python
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1 text-sm text-muted-foreground">
+              <i class="fa-brands fa-markdown" aria-hidden="true"></i>
+              Markdown
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1 text-sm text-muted-foreground">
+              <i class="fa-solid fa-robot" aria-hidden="true"></i>
+              Agent Skill 设计
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1 text-sm text-muted-foreground">
+              <i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i>
+              竞品岗位调研
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1 text-sm text-muted-foreground">
+              <i class="fa-brands fa-git-alt" aria-hidden="true"></i>
+              Git
+            </span>
+          </div>
+        </div>
+
+        <div class="border-t border-border pt-6">
+          <h3 class="mb-4 flex items-center gap-2 text-lg font-semibold text-foreground">
+            <i class="fa-regular fa-folder-open text-primary" aria-hidden="true"></i>
+            项目文件
+          </h3>
+          <div class="download-drop rounded-2xl border-2 border-dashed border-border bg-muted/50 p-6 text-center">
+            <i class="fa-brands fa-github mb-4 text-4xl text-primary" aria-hidden="true"></i>
+            <h4 class="mb-2 text-xl font-semibold text-foreground">AshXie86 / jd-forge</h4>
+            <p class="mb-4 text-muted-foreground">技能定义、五阶段流程文档与 Python 校验脚本已全部开源</p>
+            <a id="repoLinkJdForge" href="https://github.com/AshXie86/jd-forge" target="_blank" rel="noopener noreferrer"
+               class="btn-spring inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:brightness-95 hover:shadow-t-md">
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              前往 GitHub 仓库
+            </a>
+            <p class="mt-3 text-sm text-muted-foreground">开源协议 MIT | 含完整运行示例</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ============ 项目二 ============ -->
+      <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8" style="--reveal-delay: 0.1s">
         <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 class="mb-2 text-2xl font-semibold text-foreground">《原神》商业化运营与竞品分析研究</h2>
@@ -565,8 +648,8 @@
         </div>
       </article>
 
-      <!-- ============ 项目二（含 ECharts 时间线） ============ -->
-      <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8" style="--reveal-delay: 0.1s">
+      <!-- ============ 项目三 ============ -->
+      <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8" style="--reveal-delay: 0.15s">
         <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 class="mb-2 text-2xl font-semibold text-foreground">平台对竞争零售商的数据赋能策略研究</h2>
@@ -663,19 +746,10 @@
           </div>
         </div>
 
-        <div class="mt-8">
-          <h3 class="mb-4 flex items-center gap-2 text-lg font-semibold text-foreground">
-            <i class="fa-solid fa-chart-line text-primary" aria-hidden="true"></i>
-            项目进度时间线
-          </h3>
-          <div class="reveal rounded-2xl border border-border bg-card p-4" style="--reveal-delay: 0.05s">
-            <div id="timelineChart" class="h-[400px] w-full"></div>
-          </div>
-        </div>
       </article>
 
-      <!-- ============ 项目三 ============ -->
-      <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8" style="--reveal-delay: 0.15s">
+      <!-- ============ 项目四 ============ -->
+      <article class="reveal card-lift rounded-2xl border border-border bg-card p-6 shadow-t-sm md:p-8" style="--reveal-delay: 0.2s">
         <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 class="mb-2 text-2xl font-semibold text-foreground">考虑政府补贴与区块链技术的绿色供应链决策研究</h2>
@@ -788,18 +862,6 @@
     </div>
   </footer>
 
-  <!-- ECharts：主 CDN 失败时自动切换备用 CDN，保证时间线图表可用 -->
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-  <script>
-    if (typeof echarts === 'undefined') {
-      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"><\/script>');
-    }
-  </script>
-  <script>
-    if (typeof echarts === 'undefined') {
-      document.write('<script src="https://unpkg.com/echarts@5.4.3/dist/echarts.min.js"><\/script>');
-    }
-  </script>
   <script>
     (function () {
       'use strict';
@@ -860,85 +922,6 @@
       }, { passive: true });
       onScroll();
 
-      /* ---------- ECharts 时间线（颜色读 CSS 变量，随主题切换重绘） ---------- */
-      function cssVar(name, fallback) {
-        var v = getComputedStyle(root).getPropertyValue(name).trim();
-        return v || fallback;
-      }
-      function hexToRgba(hex, alpha) {
-        var r = 0, g = 0, b = 0;
-        if (hex.length === 4) {
-          r = parseInt(hex[1] + hex[1], 16); g = parseInt(hex[2] + hex[2], 16); b = parseInt(hex[3] + hex[3], 16);
-        } else if (hex.length === 7) {
-          r = parseInt(hex.slice(1, 3), 16); g = parseInt(hex.slice(3, 5), 16); b = parseInt(hex.slice(5, 7), 16);
-        }
-        return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
-      }
-
-      var timelineChart = null;
-
-      function initTimelineChart() {
-        var dom = document.getElementById('timelineChart');
-        if (!dom || typeof echarts === 'undefined') return;
-        if (timelineChart) timelineChart.dispose();
-
-        timelineChart = echarts.init(dom);
-        var primary = cssVar('--c-primary', '#007aff');
-        var text = cssVar('--c-foreground', '#1d1d1f');
-        var muted = cssVar('--c-muted-foreground', '#8e8e93');
-        var border = cssVar('--c-border', '#e5e5ea');
-
-        timelineChart.setOption({
-          title: {
-            text: '项目进度时间线',
-            left: 'center',
-            textStyle: { color: text, fontSize: 15, fontWeight: 600 }
-          },
-          tooltip: { trigger: 'axis' },
-          xAxis: {
-            type: 'category',
-            data: ['2024-11', '2024-12', '2025-01', '2025-03', '2025-05', '2025-07', '2025-09'],
-            axisLine: { lineStyle: { color: border } },
-            axisLabel: { color: muted }
-          },
-          yAxis: {
-            type: 'value',
-            name: '完成度 (%)',
-            min: 0,
-            max: 100,
-            nameTextStyle: { color: muted },
-            axisLine: { lineStyle: { color: border } },
-            axisLabel: { color: muted },
-            splitLine: { lineStyle: { color: border, type: 'dashed' } }
-          },
-          series: [{
-            name: '项目进度',
-            type: 'line',
-            smooth: true,
-            data: [10, 25, 40, 60, 75, 90, 100],
-            symbolSize: 7,
-            lineStyle: { width: 3, color: primary },
-            itemStyle: { color: primary, borderColor: cssVar('--c-card', '#fff'), borderWidth: 2 },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: hexToRgba(primary, 0.22) },
-                { offset: 1, color: hexToRgba(primary, 0.02) }
-              ])
-            }
-          }],
-          grid: { left: '3%', right: '4%', bottom: '10%', top: '18%', containLabel: true }
-        });
-      }
-
-      document.addEventListener('DOMContentLoaded', initTimelineChart);
-      window.addEventListener('resize', function () { if (timelineChart) timelineChart.resize(); });
-
-      /* 主题切换后重绘图表（颜色跟随） */
-      new MutationObserver(function (mutations) {
-        mutations.forEach(function (m) {
-          if (m.attributeName === 'class') initTimelineChart();
-        });
-      }).observe(root, { attributes: true });
     })();
   </script>
 
